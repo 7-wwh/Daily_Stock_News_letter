@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Stock News Briefing & Portfolio Matrix</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for authentic Editorial Newspaper aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,400&family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"PT Serif"', 'serif'],
+                        display: ['"Playfair Display"', 'serif'],
+                        gothic: ['"Cinzel"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* PDF/Print Layout Rules */
+        @media print {
+            body {
+                background: #fbfbf6 !important; /* Authentic newsprint paper tone */
+                color: #1a1a1a !important;
+            }
+            .print-page {
+                width: 210mm;
+                height: 297mm;
+                padding: 10mm !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-after: always;
+                background: #fbfbf6 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        /* A4 Page View Container optimized for high info-density */
+        .print-page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 12mm;
+            background-color: #fcfcf9; /* Financial newsprint tone */
+            margin: 1.5rem auto;
+            position: relative;
+            border: 1px solid #e2e2d0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Traditional Newspaper Borders */
+        .newspaper-border-double {
+            border-bottom: 5px double #1e1e1a;
+        }
+        .newspaper-border-single {
+            border-bottom: 1.5px solid #1e1e1a;
+        }
+        
+        /* Interactive Tooltip Base Styles */
+        .term-tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted #854d0e; /* Elegant amber dot line */
+        }
+        
+        .term-tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1c1917;
+            color: #f5f5f4;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-weight: 500;
+            line-height: 1.4;
+            width: 220px;
+            white-space: normal;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 50;
+        }
+
+        .term-tooltip:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-4px);
+        }
+    </style>
+
+    <!-- 
+      HERMES DATA PAYLOAD & AGENT DIRECTIONS:
+      This JSON serves as both the target payload structure and the exact prompt instruction manual
+      for your Hermes research agent swarm.
+    -->
+    <script id="hermes-data" type="application/json">
+    {
+        "metadata": {
+            "_instruction": "Output current execution metadata. Set the model key to match the active agent module.",
+            "date": "Thursday, June 25, 2026",
+            "volume": "Vol. IV • No. 128",
+            "model": "Nous-Hermes-2-Vision-Mistral",
+            "temp": "0.15",
+            "context": "32k"
+        },
+        "consensusVerdict": {
+            "_instruction": "State a single high-conviction daily directive. Keep key terms readable. Max 15 words total.",
+            "directive": "ROTATION DETECTED: EXPLOIT LIQUID SERVERS SECULAR MOMENTUM; ENTER REGIONAL UTILITIES ON DIP."
+        },
+        "portfolioPerformance": {
+            "_instruction": "Calculate total portfolio delta for the trading session in absolute dollar and percentage figures.",
+            "totalPnL": "+$4,812.50",
+            "dailyDelta": "+1.38%",
+            "up": true,
+            "stocks": [
+                { "symbol": "AAPL", "value": "189.42", "change": "+1.15%", "up": true },
+                { "symbol": "MSFT", "value": "415.80", "change": "+0.64%", "up": true },
+                { "symbol": "TSLA", "value": "174.50", "change": "-2.10%", "up": false },
+                { "symbol": "AMZN", "value": "180.25", "change": "+1.80%", "up": true },
+                { "symbol": "GOOGL", "value": "172.90", "change": "-0.45%", "up": false }
+            ]
+        },
+        "spotlight": {
+            "_instruction": "Isolate the day's dominant capital catalyst. Bullet structure: Event, Impact, Action. Max 8 words per bullet.",
+            "category": "Global Core Hardware Catalyst",
+            "title": "Compute Demand Triggers High-Capacity Liquid Cooling Server Equipment Shortage",
+            "bullets": [
+                { "label": "EVENT", "text": "Datacenter server cooling backlogs reach fiscal 2028." },
+                { "label": "IMPACT", "text": "Hardware pricing margins expand by historic 22%." },
+                { "label": "ACTION", "text": "Accumulate dominant hardware thermal component leaders." }
+            ]
+        },
+        "watchlist": {
+            "_instruction": "Identify up to 4 assets showing unusual market patterns. Include an explicit catalyst flag.",
+            "stocks": [
+                { "symbol": "NVDA", "name": "Nvidia Corp", "price": "128.54", "change": "+4.12%", "up": true, "catalyst": "UPGRADE", "volume": "1.8x" },
+                { "symbol": "PLTR", "name": "Palantir Tech", "price": "38.10", "change": "+2.85%", "up": true, "catalyst": "CONTRACT", "volume": "1.4x" },
+                { "symbol": "CEG", "name": "Constellation Energy", "price": "215.10", "change": "+3.40%", "up": true, "catalyst": "POLICY", "volume": "1.6x" },
+                { "symbol": "SMCI", "name": "Super Micro", "price": "412.30", "change": "-1.72%", "up": false, "catalyst": "SEC_FILING", "volume": "0.9x" }
+            ]
+        },
+        "riskRadar": {
+            "_instruction": "Identify major headwinds. Every risk must include a target action horizon flag: 48H, 5D, or 30D.",
+            "risks": [
+                { "title": "Energy Grid Overload", "desc": "High-density compute setups risk localized grid shutdowns, triggering municipal energy usage audits.", "impact": "High", "horizon": "48H" },
+                { "title": "Asian Transit Logistics", "desc": "Delayed custom clearance timelines threaten secondary component assembly margins.", "impact": "Medium", "horizon": "5D" },
+                { "title": "Yield Cycle Delays", "desc": "Federal Reserve minutes indicate extended rate hold patterns, compressing high-leverage positions.", "impact": "Medium", "horizon": "30D" }
+            ]
+        },
+        "macroCalendar": {
+            "_instruction": "List high-impact macroeconomic indicators and market releases scheduled for the next 48 hours. Limit the combined list of macro indicators to 3 entries maximum to prevent front-page layout overflow.",
+            "events": [
+                { "time": "08:30 EST", "event": "Core PCE Price Index MoM", "impact": "CRITICAL", "forecast": "0.2%", "previous": "0.3%" },
+                { "time": "10:00 EST", "event": "Revised UoM Consumer Sentiment", "impact": "MEDIUM", "forecast": "69.1", "previous": "68.8" },
+                { "time": "14:00 EST", "event": "FOMC Meeting Minutes", "impact": "HIGH", "forecast": "N/A", "previous": "N/A" }
+            ]
+        },
+        "earningsCalendar": {
+            "_instruction": "List high-impact corporate earnings releases scheduled for the next 48 hours. Target major S&P 500 companies or high-beta growth indicators. AGENT DIRECTIONS: Query Yahoo Finance Earnings Calendar or Nasdaq Earnings. Identify timing as BMO (Before Market Open), AMC (After Market Close), or precise EST hour. Extract Consensus EPS Estimate. Limit list to 3 entries maximum to fit precisely inside the Catalyst Schedule.",
+            "events": [
+                { "symbol": "NKE", "name": "Nike, Inc.", "time": "AMC", "impact": "HIGH", "epsEst": "$0.52", "period": "Q4" },
+                { "symbol": "MU", "name": "Micron Tech", "time": "AMC", "impact": "CRITICAL", "epsEst": "$0.48", "period": "Q3" },
+                { "symbol": "WBA", "name": "Walgreens Boots", "time": "BMO", "impact": "MEDIUM", "epsEst": "$0.36", "period": "Q3" }
+            ]
+        },
+        "secularRotations": {
+            "_instruction": "Identify slow-burning, long-term macroeconomic shifts and capital transitions. Avoid short-term catalysts here.",
+            "rotations": [
+                {
+                    "trend": "Atomic Energy Integration",
+                    "timeline": "Secular (3-5 Years)",
+                    "summary": "Hyperscale tech operators are locking in 20-year off-grid power purchasing treaties directly with decommissioned private nuclear reactor blocks to buffer computational scaling constraints."
+                },
+                {
+                    "trend": "Closed-Loop Liquid Thermals",
+                    "timeline": "Structural (12-18 Months)",
+                    "summary": "High-voltage performance processing is rendering legacy air cooling systems completely obsolete. Infrastructure capital is shifting permanently into advanced water-glycol fluid loop suppliers."
+                }
+            ]
+        },
+        "portfolioDeepDive": {
+            "_instruction": "Provide comprehensive technical metrics, breaking news, trajectory trends, and swarm insights for active holdings. METRIC DISCOVERY PROTOCOL FOR AGENT: For each ticker, execute query format '{Ticker} support resistance June 2026' and '{Ticker} catalyst news'. Query authorized institutional data endpoints: Bloomberg, SEC EDGAR, Reuters, WSJ, CNBC, or PRNewswire. Cross-reference to ensure timestamp integrity before generating. Write a concise factual description of the catalyst. SOURCES SCRAPING MANDATE: For each source element, extract: 'title' (canonical publication name), 'url' (active, valid link), 'snippet' (one clear factual sentence summarizing the claim), and 'reliability' ('HIGH', 'MEDIUM', or 'VERIFIED').",
+            "holdings": [
+                {
+                    "symbol": "AAPL",
+                    "name": "Apple Inc.",
+                    "allocation": "28%",
+                    "technicalState": "APPROACHING SUPPORT",
+                    "support": 185.00,
+                    "resistance": 196.50,
+                    "current": 189.42,
+                    "pct": "40%",
+                    "catalyst": "EU antitrust case concluded with lower-than-anticipated fine rate, securing App Store ecosystem revenue targets.",
+                    "trajectory": "Bullish consolidations above 200-day moving average. Projected timeline targets breakout to $202 within 14 trading days.",
+                    "sources": [
+                        { "title": "Bloomberg Tech Desk", "url": "https://www.bloomberg.com", "snippet": "EU regulators settle with Apple, choosing a low fine system to ensure compliance over punitive fee extraction.", "reliability": "HIGH" },
+                        { "title": "Reuters Business Wire", "url": "https://www.reuters.com", "snippet": "Global hardware giants receive minor relief as the European antitrust clampdown pauses on developer compliance declarations.", "reliability": "VERIFIED" }
+                    ],
+                    "tradeSetup": {
+                        "_instruction": "Provide exact, actionable trade execution coordinates. Action must be a standard action call (e.g. BUY, HOLD, SELL, ACCUMULATE). Reasoning must provide the direct multi-agent strategic catalyst, entry defines immediate loading zone range, stopLoss defines invalidation trigger, and target establishes upside exit.",
+                        "action": "BUY",
+                        "reasoning": "Add on any intraday dip toward $185–187. The institutional accumulation pattern here is textbook. Upside to $202 within 30 days if broader market holds.",
+                        "entry": "$185–187",
+                        "stopLoss": "$181",
+                        "target": "$202"
+                    }
+                },
+                {
+                    "symbol": "MSFT",
+                    "name": "Microsoft Corp",
+                    "allocation": "32%",
+                    "technicalState": "RANGE BOUND",
+                    "support": 410.00,
+                    "resistance": 430.00,
+                    "current": 415.80,
+                    "pct": "29%",
+                    "catalyst": "Enterprise cloud ARR projections revised upward by 4.5% due to robust mid-tier copilot integration contracts.",
+                    "trajectory": "Consolidating near lower end of historical Bollinger Bands. Projected breakout targets $442 if support holds.",
+                    "sources": [
+                        { "title": "SEC EDGAR Form 8-K", "url": "https://www.sec.gov", "snippet": "Microsoft records a 4.5% sequential revision to enterprise AI licensing commitments.", "reliability": "VERIFIED" },
+                        { "title": "CNBC Finance", "url": "https://www.cnbc.com", "snippet": "Copilot platform integrations exceed hardware overhead costs for top-tier enterprise accounts.", "reliability": "HIGH" }
+                    ],
+                    "tradeSetup": {
+                        "_instruction": "Provide exact, actionable trade execution coordinates. Action must be a standard action call (e.g. BUY, HOLD, SELL, ACCUMULATE). Reasoning must provide the direct multi-agent strategic catalyst, entry defines immediate loading zone range, stopLoss defines invalidation trigger, and target establishes upside exit.",
+                        "action": "HOLD",
+                        "reasoning": "Maintain core base layer sizing. Avoid increasing capital commitment until a structural daily close registers above overhead resistance at $422.",
+                        "entry": "$410–412",
+                        "stopLoss": "$404",
+                        "target": "$442"
+                    }
+                },
+                {
+                    "symbol": "TSLA",
+                    "name": "Tesla Motors",
+                    "allocation": "15%",
+                    "technicalState": "UNDER PRESSURE",
+                    "support": 165.00,
+                    "resistance": 188.00,
+                    "current": 174.50,
+                    "pct": "41%",
+                    "catalyst": "Insurance claim margins compressed in European hub regions; local delivery logistics backlogs expand.",
+                    "trajectory": "Bearish downtrend channel remains active. Testing critical $170 baseline. Projected breakdown targets $158.",
+                    "sources": [
+                        { "title": "MarketWatch Automotives", "url": "https://www.marketwatch.com", "snippet": "European logistics networks choke delivery flow patterns for electric utility vehicles.", "reliability": "MEDIUM" }
+                    ],
+                    "tradeSetup": {
+                        "_instruction": "Provide exact, actionable trade execution coordinates. Action must be a standard action call (e.g. BUY, HOLD, SELL, ACCUMULATE). Reasoning must provide the direct multi-agent strategic catalyst, entry defines immediate loading zone range, stopLoss defines invalidation trigger, and target establishes upside exit.",
+                        "action": "SELL",
+                        "reasoning": "Maintain defensive/short posture. Treat any temporary retracement toward the $178 level as a clear structural exit trigger. Protect capital.",
+                        "entry": "$178–180",
+                        "stopLoss": "$184",
+                        "target": "$158"
+                    }
+                }
+            ]
+        },
+        "glossary": {
+            "_instruction": "Supply custom, newly scraped, or highly specific terms here. The background engine will auto-link them across all dynamic texts on page load.",
+            "ARR": "Annual Recurring Revenue: A key metric measuring predictable subscription cash flows normalized over a 12-month period.",
+            "Bollinger Bands": "An analytical volatility envelope tracking standard deviations above and below a simple moving average line.",
+            "put spreads": "An option hedge strategy where you buy one put option and sell another at a lower strike price to offset entry costs."
+        }
+    }
+    </script>
+</head>
+<body class="bg-stone-100 text-stone-900 font-sans antialiased">
+
+    <!-- Page 1: Daily Briefing -->
+    <div class="print-page flex flex-col justify-between" id="page-1-node">
+        <div>
+            <!-- MASTHEAD / HEADER BLOCK -->
+            <div class="flex justify-between items-start pt-1 pb-1">
+                <div class="max-w-[70%]">
+                    <span class="font-gothic text-[9px] tracking-[0.25em] font-bold text-stone-500 block uppercase">Financial Intelligence Swarm</span>
+                    <h1 class="font-display text-3xl font-black tracking-tight text-stone-950 leading-none mt-0.5">
+                        DAILY STOCK NEWS BRIEFING
+                    </h1>
+                    <div class="flex items-center gap-3 mt-1 text-[10px] font-serif text-stone-600">
+                        <span class="font-bold" id="meta-date">Thursday, June 25, 2026</span>
+                        <span>•</span>
+                        <span id="meta-volume">Vol. IV • No. 128</span>
+                        <span>•</span>
+                        <span class="text-amber-800 font-semibold uppercase tracking-wider text-[9px]">Page 1: Macro View</span>
+                    </div>
+                </div>
+
+                <!-- Technical Spec Metadata -->
+                <div class="text-right bg-stone-100 p-2 rounded border border-stone-200 font-mono text-[9px] text-stone-700 self-center">
+                    <div class="font-bold uppercase text-[8px] text-stone-400 tracking-wider">Researching Intelligence Unit</div>
+                    <div class="text-stone-900 font-bold mt-0.5" id="meta-model">Nous-Hermes-2-Vision-Mistral</div>
+                    <div class="text-[8px] text-stone-500">Temp: <span id="meta-temp">0.15</span> • Context: <span id="meta-context">32k</span></div>
+                </div>
+            </div>
+
+            <!-- Double Line Separator -->
+            <div class="newspaper-border-double my-2"></div>
+
+            <!-- ABOVE THE FOLD BANNER: Trade of the Day / Agent Consensus Verdict -->
+            <div class="bg-amber-500 text-stone-950 px-4 py-2 rounded mb-3 flex items-center justify-between border-y border-amber-600 shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <span class="font-mono text-[9px] font-bold bg-stone-950 text-amber-400 px-1.5 py-0.5 rounded tracking-wider uppercase">VERDICT</span>
+                    <span id="consensus-text" class="font-sans font-extrabold text-[11px] tracking-wide leading-none">
+                        ROTATION DETECTED: EXPLOIT LIQUID SERVERS SECULAR MOMENTUM; ENTER REGIONAL UTILITIES ON DIP.
+                    </span>
+                </div>
+                <span class="font-mono text-[9px] text-stone-900 font-bold hidden sm:block">HERMES REALTIME DECISION ENGINE</span>
+            </div>
+
+            <!-- Portfolio & P&L Bar -->
+            <div class="flex items-center justify-between py-1 border-b border-stone-300 text-center font-serif text-xs mb-3">
+                <!-- Total Delta P&L Block -->
+                <div class="text-left pr-4 border-r border-stone-300 shrink-0">
+                    <span class="font-mono text-[8px] font-bold text-stone-400 uppercase tracking-wider block font-semibold">Portfolio Delta</span>
+                    <div class="flex items-baseline gap-1.5 mt-0.5">
+                        <span id="portfolio-pnl" class="font-display text-base font-black text-emerald-800 leading-none">+$4,812.50</span>
+                        <span id="portfolio-delta" class="font-mono text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1 rounded">+1.38%</span>
+                    </div>
+                </div>
+                <!-- Dynamic stock columns -->
+                <div id="portfolio-container" class="flex-1 flex justify-around items-center divide-x divide-stone-200 ml-3">
+                    <!-- JavaScript dynamically populates stocks here -->
+                </div>
+            </div>
+
+            <!-- Single Line Separator -->
+            <div class="newspaper-border-single mb-4"></div>
+
+            <!-- Main Newspaper Editorial Grid -->
+            <div class="grid grid-cols-3 gap-6">
+                
+                <!-- Left & Center Columns: Catalyst Spotlight (2/3 width) -->
+                <div class="col-span-2 border-r border-stone-200 pr-6">
+                    <span id="spotlight-category" class="font-mono text-[9px] tracking-widest uppercase text-amber-800 font-bold mb-1 block">GLOBAL CORE HARDWARE CATALYST</span>
+                    <h2 id="spotlight-title" class="font-display text-xl font-bold leading-tight text-stone-950 mb-3">
+                        Compute Demand Triggers High-Capacity Liquid Cooling Server Equipment Shortage
+                    </h2>
+                    
+                    <!-- REFACTORED: The "So What" 3-Bullet Decision Matrix -->
+                    <div class="bg-stone-50 border border-stone-200 p-3.5 rounded-lg my-3 space-y-3">
+                        <span class="font-mono text-[9px] font-bold text-stone-400 tracking-wider uppercase block font-semibold">Catalyst Decision Matrix</span>
+                        <div id="spotlight-bullets" class="grid grid-cols-3 gap-3">
+                            <!-- Bullet 1: Event -->
+                            <div class="border-r border-stone-200 pr-2 last:border-none">
+                                <span class="font-mono text-[8px] font-bold text-stone-500 uppercase block tracking-wider">01. THE EVENT</span>
+                                <p id="bullet-event" class="font-serif text-[11px] text-stone-900 mt-1 leading-normal font-semibold">Datacenter server cooling backlogs reach fiscal 2028.</p>
+                            </div>
+                            <!-- Bullet 2: Impact -->
+                            <div class="border-r border-stone-200 pr-2 last:border-none">
+                                <span class="font-mono text-[8px] font-bold text-red-700 uppercase block tracking-wider">02. THE IMPACT</span>
+                                <p id="bullet-impact" class="font-serif text-[11px] text-stone-900 mt-1 leading-normal font-semibold">Hardware pricing margins expand by historic 22%.</p>
+                            </div>
+                            <!-- Bullet 3: Action -->
+                            <div class="last:border-none">
+                                <span class="font-mono text-[8px] font-bold text-emerald-700 uppercase block tracking-wider">03. THE ACTION</span>
+                                <p id="bullet-action" class="font-serif text-[11px] text-stone-950 mt-1 leading-normal font-bold">Accumulate dominant hardware thermal component leaders.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inner Table: High Conviction Watchlist -->
+                    <div class="border-t border-stone-300 pt-3 mt-4">
+                        <h3 class="font-gothic text-xs font-bold tracking-widest text-stone-800 uppercase mb-2">High Volume Watchlist Breakouts</h3>
+                        <table class="w-full text-left font-serif text-xs">
+                            <thead>
+                                <tr class="border-b border-stone-200 font-mono text-[9px] text-stone-500 uppercase">
+                                    <th class="pb-1">Ticker / Asset</th>
+                                    <th class="pb-1 text-right">Last Price</th>
+                                    <th class="pb-1 text-right">Daily Δ</th>
+                                    <th class="pb-1 text-center">Catalyst Tag</th>
+                                    <th class="pb-1 text-right">Vol Spike</th>
+                                </tr>
+                            </thead>
+                            <tbody id="watchlist-container" class="divide-y divide-stone-100">
+                                <!-- Dynamic watchlist values populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right Column: Volatility & Risk Analysis (1/3 width) -->
+                <div class="flex flex-col justify-between pl-1">
+                    <div class="space-y-4">
+                        <div>
+                            <span class="font-mono text-[9px] tracking-widest uppercase text-red-800 font-bold block mb-1">Risk & Volatility Radar</span>
+                            <h3 class="font-display text-sm font-bold tracking-tight text-stone-950 mb-2">Systemic Headwinds</h3>
+                            
+                            <div id="risk-container" class="space-y-3 font-serif text-xs text-stone-700 border-b border-stone-200 pb-3 mb-3">
+                                <!-- Dynamic Risk Factors populated here with Urgent Horizon Tags -->
+                            </div>
+                        </div>
+
+                        <!-- Macro Event & Corporate Earnings Calendar Combined Container -->
+                        <div class="border-t border-stone-200 pt-3">
+                            <span class="font-mono text-[9px] tracking-widest uppercase text-amber-800 font-bold block mb-1">Catalyst Schedule</span>
+                            <h3 class="font-display text-sm font-bold tracking-tight text-stone-950 mb-2">Macro & Corporate Horizon</h3>
+                            <div id="calendar-container" class="space-y-3 font-sans">
+                                <!-- Dynamic combined Macro Events & Earnings populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Secular Rotations & Macro Cycles -->
+            <div class="border-t border-stone-300 pt-3 mt-4">
+                <div class="border-b border-stone-200 pb-1 mb-2">
+                    <h3 class="font-gothic text-[10px] font-bold tracking-widest uppercase text-stone-800">Secular Trends & Structural Rotations</h3>
+                </div>
+                <div id="secular-rotations-container" class="grid grid-cols-2 gap-8">
+                    <!-- Dynamic Secular Trends articles populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Column -->
+        <div class="border-t-2 border-stone-950 pt-2 flex justify-between items-center text-[9px] font-mono text-stone-500 mt-4">
+            <div>CLASSIFIED FINANCIAL DISTRIBUTION • HERMES AGENT UNIT</div>
+            <div class="font-bold">PAGE 1 OF 2</div>
+        </div>
+    </div>
+
+    <!-- Page 2: Extended Portfolio Deep Dive -->
+    <div class="print-page flex flex-col justify-between" id="page-2-node">
+        <div>
+            
+            <!-- MASTHEAD / HEADER BLOCK PAGE 2 -->
+            <div class="flex justify-between items-start pt-1 pb-1">
+                <div class="max-w-[70%]">
+                    <span class="font-gothic text-[9px] tracking-[0.25em] font-bold text-stone-500 block uppercase">Financial Intelligence Swarm</span>
+                    <h1 class="font-display text-3xl font-black tracking-tight text-stone-950 leading-none mt-0.5">
+                        PORTFOLIO DEEP-DIVE MATRIX
+                    </h1>
+                    <div class="flex items-center gap-3 mt-1 text-[10px] font-serif text-stone-600">
+                        <span class="font-bold" id="meta-date-p2">Thursday, June 25, 2026</span>
+                        <span>•</span>
+                        <span id="meta-volume-p2">Vol. IV • No. 128</span>
+                        <span>•</span>
+                        <span class="text-amber-800 font-semibold uppercase tracking-wider text-[9px]">Page 2: Portfolio Analysis</span>
+                    </div>
+                </div>
+
+                <!-- Technical Spec Metadata Page 2 -->
+                <div class="text-right bg-stone-100 p-2 rounded border border-stone-200 font-mono text-[9px] text-stone-700 self-center">
+                    <div class="font-bold uppercase text-[8px] text-stone-400 tracking-wider">Researching Intelligence Unit</div>
+                    <div class="text-stone-900 font-bold mt-0.5" id="meta-model-p2">Nous-Hermes-2-Vision-Mistral</div>
+                </div>
+            </div>
+
+            <!-- Double Line Separator -->
+            <div class="newspaper-border-double my-2"></div>
+
+            <!-- Strategic Subhead Explainer -->
+            <div class="bg-stone-50 border border-stone-200 p-3 rounded-lg mb-4 text-[11px] leading-relaxed text-stone-700 text-justify font-serif">
+                <strong class="font-sans text-stone-900 uppercase tracking-wide text-[9px] block mb-0.5">MATRIX DECODING PARAMETERS</strong>
+                Each position card below bridges technical and fundamental research. The support/resistance visualizer draws real-time historical waves bounded by reliable support and resistance price floors and ceilings. Swarm insights outline near-term options strategies and position scaling triggers. Hover over the source buttons to inspect dynamic context.
+            </div>
+
+            <!-- Position Cards Grid Layout -->
+            <div id="deepdive-container" class="grid grid-cols-1 gap-4">
+                <!-- Dynamically generated holding analysis matrices with technical vector canvases -->
+            </div>
+
+        </div>
+
+        <!-- Footer Column Page 2 -->
+        <div class="border-t-2 border-stone-950 pt-2 flex justify-between items-center text-[9px] font-mono text-stone-500 mt-4">
+            <div>CLASSIFIED FINANCIAL DISTRIBUTION • HERMES AGENT UNIT</div>
+            <div class="font-bold">PAGE 2 OF 2</div>
+        </div>
+    </div>
+
+    <!-- Client-Side Render Logic -->
+    <script>
+        // Pre-loaded baseline financial terms dictionary.
+        const defaultGlossary = {
+            "Rotation": "Rotation: When institutional smart money shifts massive capital out of one sector (like Tech) directly into another (like Utilities).",
+            "Secular": "Secular: Long-term macroeconomic trends lasting years, driven by major structural transformations rather than short-term events.",
+            "Delta": "Delta: The absolute net change in the total value of your holdings during today's trading session.",
+            "Support": "Support: A key historical stock price floor where buying pressure typically overcomes selling force, halting downtrends.",
+            "Resistance": "Resistance: An overhead price level where selling supply tends to gather, capping upward stock breakouts.",
+            "Vol Spike": "Volume Spike: Measures modern trading speed vs the historical 20-day average. Large values indicate significant institutional accumulation.",
+            "AMC": "After Market Close: Reporting after regular market trading sessions conclude (typically after 16:00 EST).",
+            "BMO": "Before Market Open: Reporting prior to regular market trading sessions beginning (typically before 09:30 EST)."
+        };
+
+        /**
+         * Safely crawls element TEXT nodes and wraps matches with styled Tooltips.
+         * Skips nodes that are already elements, tooltips, or script nodes.
+         */
+        function applyDynamicTooltips(element, glossary) {
+            if (!element) return;
+            const terms = Object.keys(glossary).sort((a, b) => b.length - a.length);
+            if (terms.length === 0) return;
+
+            const targetTokens = terms.map(t => t.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
+            const regex = new RegExp('\\b(' + targetTokens.join('|') + ')\\b', 'gi');
+
+            const walk = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            const textNodes = [];
+            while(walk.nextNode()) textNodes.push(walk.currentNode);
+
+            textNodes.forEach(node => {
+                const parent = node.parentElement;
+                if (parent && (
+                    parent.classList.contains('term-tooltip') || 
+                    parent.tagName === 'A' ||
+                    parent.tagName === 'SCRIPT' ||
+                    parent.tagName === 'STYLE' ||
+                    parent.tagName === 'BUTTON' ||
+                    parent.closest('.source-card-tooltip')
+                )) {
+                    return;
+                }
+
+                const matches = node.nodeValue.match(regex);
+                if (matches) {
+                    const tempSpan = document.createElement('span');
+                    const replacedText = node.nodeValue.replace(regex, (match) => {
+                        const matchedKey = terms.find(t => t.toLowerCase() === match.toLowerCase());
+                        const tooltipText = glossary[matchedKey];
+                        return `<span class="term-tooltip" data-tooltip="${tooltipText}">${match}</span>`;
+                    });
+                    
+                    tempSpan.innerHTML = replacedText;
+                    while (tempSpan.firstChild) {
+                        parent.insertBefore(tempSpan.firstChild, node);
+                    }
+                    parent.removeChild(node);
+                }
+            });
+        }
+
+        /**
+         * Draws an editorial-grade support/resistance visual graph on an HTML5 canvas.
+         */
+        function drawVectorTechnicalChart(canvasId, current, support, resistance) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            // Adjust resolution for high-DPI displays
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            
+            const width = rect.width;
+            const height = rect.height;
+            const padding = 20;
+            
+            // Background
+            ctx.fillStyle = '#fcfcf9'; // Matching newsprint color
+            ctx.fillRect(0, 0, width, height);
+            
+            // Calculate scale limits with comfort zones
+            const maxVal = Math.max(current, support, resistance) * 1.05;
+            const minVal = Math.min(current, support, resistance) * 0.95;
+            const valueRange = maxVal - minVal;
+            
+            function getY(val) {
+                return padding + (1 - (val - minVal) / valueRange) * (height - 2 * padding);
+            }
+            
+            // Draw grid lines
+            ctx.strokeStyle = '#e5e5d8';
+            ctx.lineWidth = 0.5;
+            for (let i = 1; i < 5; i++) {
+                const y = padding + (i / 5) * (height - 2 * padding);
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(width - padding, y);
+                ctx.stroke();
+            }
+            
+            // Plot historical path (synthetic seed wave ending at 'current')
+            const pointsCount = 18;
+            const points = [];
+            const step = (width - 2 * padding) / (pointsCount - 1);
+            
+            // Deterministic pseudo-random path generator based on current value
+            let seed = current;
+            for (let i = 0; i < pointsCount - 1; i++) {
+                const percentageOfSR = (current - support) / (resistance - support || 1);
+                const mid = support + percentageOfSR * (resistance - support) * (0.8 + 0.4 * Math.sin(i * 0.8));
+                points.push(mid);
+            }
+            points.push(current); // Must end exactly at current price
+            
+            // Draw price trend line
+            ctx.strokeStyle = '#1c1917'; // Charcoal newsprint black
+            ctx.lineWidth = 1.75;
+            ctx.beginPath();
+            ctx.moveTo(padding, getY(points[0]));
+            for (let i = 1; i < pointsCount; i++) {
+                const x = padding + i * step;
+                ctx.lineTo(x, getY(points[i]));
+            }
+            ctx.stroke();
+            
+            // Draw boundary floor (Support)
+            const ySupport = getY(support);
+            ctx.strokeStyle = '#15803d'; // Emerald support
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(padding, ySupport);
+            ctx.lineTo(width - padding, ySupport);
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset dash
+            
+            ctx.fillStyle = '#15803d';
+            ctx.font = 'bold 8px monospace';
+            ctx.fillText(`SUP: $${support.toFixed(2)}`, padding + 4, ySupport - 4);
+            
+            // Draw boundary ceiling (Resistance)
+            const yResistance = getY(resistance);
+            ctx.strokeStyle = '#b91c1c'; // Red resistance
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(padding, yResistance);
+            ctx.lineTo(width - padding, yResistance);
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset
+            
+            ctx.fillStyle = '#b91c1c';
+            ctx.font = 'bold 8px monospace';
+            ctx.fillText(`RES: $${resistance.toFixed(2)}`, padding + 4, yResistance + 10);
+            
+            // Draw pulsing target dot (Current Price)
+            const xLast = width - padding;
+            const yLast = getY(current);
+            
+            ctx.fillStyle = '#d97706'; // Amber target
+            ctx.beginPath();
+            ctx.arc(xLast, yLast, 4.5, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            ctx.strokeStyle = '#1c1917';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(xLast, yLast, 4.5, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Draw current price tag
+            ctx.fillStyle = '#1c1917';
+            ctx.font = 'bold 10px monospace';
+            ctx.fillText(`$${current.toFixed(2)}`, xLast - 55, yLast - 6);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const dataElement = document.getElementById("hermes-data");
+            if (!dataElement) return;
+
+            try {
+                const data = JSON.parse(dataElement.textContent);
+                renderNewspaper(data);
+
+                // Run Dynamic Auto-Tooltip Engine across pages
+                const glossary = Object.assign({}, defaultGlossary, data.glossary || {});
+                applyDynamicTooltips(document.getElementById("page-1-node"), glossary);
+                applyDynamicTooltips(document.getElementById("page-2-node"), glossary);
+            } catch (err) {
+                console.error("Error compiling newspaper data:", err);
+            }
+        });
+
+        function renderNewspaper(data) {
+            // Apply Metadata (Page 1 & 2)
+            document.getElementById("meta-date").textContent = data.metadata.date;
+            document.getElementById("meta-volume").textContent = data.metadata.volume;
+            document.getElementById("meta-model").textContent = data.metadata.model;
+            document.getElementById("meta-temp").textContent = data.metadata.temp;
+            document.getElementById("meta-context").textContent = data.metadata.context;
+
+            document.getElementById("meta-date-p2").textContent = data.metadata.date;
+            document.getElementById("meta-volume-p2").textContent = data.metadata.volume;
+            document.getElementById("meta-model-p2").textContent = data.metadata.model;
+
+            // Apply Verdict Banner
+            document.getElementById("consensus-text").textContent = data.consensusVerdict.directive.toUpperCase();
+
+            // Apply Portfolio Delta metrics
+            const pnlElement = document.getElementById("portfolio-pnl");
+            const deltaElement = document.getElementById("portfolio-delta");
+            pnlElement.textContent = data.portfolioPerformance.totalPnL;
+            deltaElement.textContent = data.portfolioPerformance.dailyDelta;
+            
+            if (!data.portfolioPerformance.up) {
+                pnlElement.className = "font-display text-base font-black text-red-800 leading-none";
+                deltaElement.className = "font-mono text-[10px] font-bold text-red-700 bg-red-50 px-1 rounded";
+            } else {
+                pnlElement.className = "font-display text-base font-black text-emerald-800 leading-none";
+                deltaElement.className = "font-mono text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1 rounded";
+            }
+
+            // Populate Portfolio overview bar
+            const portfolioContainer = document.getElementById("portfolio-container");
+            portfolioContainer.innerHTML = "";
+            const stocks = data.portfolioPerformance.stocks || [];
+            const count = stocks.length;
+            
+            let sizeClass = "text-sm";
+            let tagSize = "text-[9px]";
+            let padClass = "px-1.5";
+            if (count > 8) {
+                sizeClass = "text-[10px]";
+                tagSize = "text-[8px]";
+                padClass = "px-0.5";
+            } else if (count > 5) {
+                sizeClass = "text-xs";
+                tagSize = "text-[8px]";
+                padClass = "px-1";
+            }
+
+            stocks.forEach(stock => {
+                const isUp = stock.up;
+                const sign = isUp ? "▲" : "▼";
+                const colorClass = isUp ? "text-emerald-800" : "text-red-800";
+                
+                portfolioContainer.innerHTML += `
+                    <div class="flex-1 text-center ${padClass}">
+                        <span class="font-mono ${tagSize} uppercase tracking-wider text-stone-500 font-bold block">${stock.symbol}</span>
+                        <div class="font-display font-black text-stone-900 mt-0.5 ${sizeClass}">$${parseFloat(stock.value).toFixed(2)}</div>
+                        <div class="font-mono text-[9px] ${colorClass} font-semibold mt-0.5">
+                            ${sign} ${stock.change}
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Spotlight Decision Matrix
+            document.getElementById("spotlight-category").textContent = data.spotlight.category.toUpperCase();
+            document.getElementById("spotlight-title").textContent = data.spotlight.title;
+            
+            const bulletData = data.spotlight.bullets || [];
+            if (bulletData.length >= 3) {
+                document.getElementById("bullet-event").textContent = bulletData[0].text;
+                document.getElementById("bullet-impact").textContent = bulletData[1].text;
+                document.getElementById("bullet-action").textContent = bulletData[2].text;
+            }
+
+            // Watchlist
+            const watchlistContainer = document.getElementById("watchlist-container");
+            watchlistContainer.innerHTML = "";
+            const watchlistStocks = (data.watchlist && data.watchlist.stocks) || [];
+            watchlistStocks.forEach(stock => {
+                const changeColor = stock.up ? "text-emerald-700 font-bold" : "text-red-700 font-bold";
+                const plusSign = stock.up ? "+" : "";
+                
+                watchlistContainer.innerHTML += `
+                    <tr class="border-b border-stone-100 last:border-none">
+                        <td class="py-2 font-mono font-bold text-stone-950">
+                            ${stock.symbol} <span class="text-[9px] text-stone-400 font-normal pl-1">${stock.name}</span>
+                        </td>
+                        <td class="py-2 text-right font-mono">$${parseFloat(stock.price).toFixed(2)}</td>
+                        <td class="py-2 text-right font-mono ${changeColor}">
+                            ${plusSign}${stock.change}
+                        </td>
+                        <td class="py-2 text-center">
+                            <span class="font-mono text-[8px] bg-amber-100 text-amber-900 border border-amber-300 font-extrabold px-1.5 py-0.5 rounded tracking-wide uppercase">
+                                ${stock.catalyst}
+                            </span>
+                        </td>
+                        <td class="py-2 text-right font-mono text-stone-900 font-semibold">${stock.volume}</td>
+                    </tr>
+                `;
+            });
+
+            // Risks with Horizon indicators
+            const riskContainer = document.getElementById("risk-container");
+            riskContainer.innerHTML = "";
+            const radarRisks = (data.riskRadar && data.riskRadar.risks) || [];
+            radarRisks.forEach(risk => {
+                const impactColor = (risk.impact === "High" || risk.impact === "Critical") ? "bg-red-100 text-red-900" : "bg-stone-200 text-stone-800";
+                
+                riskContainer.innerHTML += `
+                    <div class="border-b border-stone-100 pb-2 last:border-none last:pb-0">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-stone-900 text-[11px]">${risk.title}</span>
+                            <div class="flex items-center gap-1 shrink-0">
+                                <span class="font-mono text-[8px] bg-stone-950 text-white px-1 py-0.5 rounded font-extrabold">${risk.horizon}</span>
+                                <span class="font-mono text-[8px] ${impactColor} px-1.5 py-0.5 rounded font-bold tracking-wider uppercase">
+                                    ${risk.impact}
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-stone-600 mt-1 leading-normal text-justify">${risk.desc}</p>
+                    </div>
+                `;
+            });
+
+            // COMBINED Macro & Earnings Catalyst Schedule rendering
+            const calendarContainer = document.getElementById("calendar-container");
+            calendarContainer.innerHTML = "";
+            
+            const macroEvents = (data.macroCalendar && data.macroCalendar.events) || [];
+            const earningsEvents = (data.earningsCalendar && data.earningsCalendar.events) || [];
+            
+            // Build Unified Items Array to display cleanly inside one panel
+            const unifiedSchedule = [];
+            
+            macroEvents.forEach(evt => {
+                unifiedSchedule.push({
+                    type: "MACRO",
+                    time: evt.time,
+                    title: evt.event,
+                    impact: evt.impact,
+                    detail1: evt.forecast,
+                    detail2: evt.previous,
+                    label1: "Forecast",
+                    label2: "Prev"
+                });
+            });
+            
+            earningsEvents.forEach(evt => {
+                unifiedSchedule.push({
+                    type: "EARNINGS",
+                    time: evt.time,
+                    title: `${evt.symbol} Earnings`,
+                    impact: evt.impact,
+                    detail1: evt.epsEst,
+                    detail2: evt.period,
+                    label1: "EPS Est",
+                    label2: "Period"
+                });
+            });
+
+            // Limit elements to prevent spillover
+            unifiedSchedule.slice(0, 5).forEach(item => {
+                let badgeColor = "text-stone-500 bg-stone-100";
+                if (item.type === "EARNINGS") {
+                    badgeColor = "text-purple-900 bg-purple-100 font-bold border border-purple-200";
+                } else if (item.impact === "CRITICAL") {
+                    badgeColor = "text-red-900 bg-red-100 font-bold border border-red-200";
+                } else if (item.impact === "HIGH") {
+                    badgeColor = "text-amber-900 bg-amber-100 font-bold border border-amber-200";
+                }
+                
+                calendarContainer.innerHTML += `
+                    <div class="flex items-start justify-between gap-2 border-b border-stone-100 pb-1.5 last:border-none last:pb-0 font-sans text-[10px] leading-normal">
+                        <div class="flex-1">
+                            <div class="flex items-baseline gap-1.5">
+                                <span class="font-mono text-[8px] text-stone-400 font-bold uppercase">${item.time}</span>
+                                <span class="font-bold text-stone-900">${item.title}</span>
+                            </div>
+                            <div class="text-[9px] text-stone-500 font-mono mt-0.5">
+                                ${item.label1}: <span class="text-stone-800 font-semibold">${item.detail1}</span> • ${item.label2}: <span class="text-stone-800">${item.detail2}</span>
+                            </div>
+                        </div>
+                        <span class="font-mono text-[7px] px-1.5 py-0.5 rounded tracking-wider uppercase shrink-0 ${badgeColor}">
+                            ${item.type === "EARNINGS" ? "EARNINGS" : item.impact}
+                        </span>
+                    </div>
+                `;
+            });
+
+            // Secular Trend block
+            const secularContainer = document.getElementById("secular-rotations-container");
+            secularContainer.innerHTML = "";
+            const rotations = (data.secularRotations && data.secularRotations.rotations) || [];
+            rotations.forEach(item => {
+                secularContainer.innerHTML += `
+                    <div class="border-r border-stone-200 last:border-none pr-6 last:pr-0">
+                        <div class="flex justify-between items-baseline">
+                            <h4 class="font-display text-sm font-bold leading-tight text-stone-950">${item.trend}</h4>
+                            <span class="font-mono text-[8px] text-stone-400 font-bold uppercase tracking-wider block">${item.timeline}</span>
+                        </div>
+                        <p class="font-serif text-[10.5px] text-stone-700 leading-normal text-justify mt-1.5">${item.summary}</p>
+                    </div>
+                `;
+            });
+
+            // Apply Portfolio Deep Dive Matrix Cards
+            const deepDiveContainer = document.getElementById("deepdive-container");
+            deepDiveContainer.innerHTML = "";
+            const deepDiveHoldings = (data.portfolioDeepDive && data.portfolioDeepDive.holdings) || [];
+            
+            deepDiveHoldings.forEach((holding, idx) => {
+                let stateBadge = "bg-stone-100 text-stone-800";
+                if (holding.technicalState.includes("SUPPORT")) {
+                    stateBadge = "bg-emerald-100 text-emerald-900 border border-emerald-300";
+                } else if (holding.technicalState.includes("PRESSURE")) {
+                    stateBadge = "bg-red-100 text-red-900 border border-red-300";
+                } else if (holding.technicalState.includes("BOUND")) {
+                    stateBadge = "bg-amber-100 text-amber-900 border border-amber-300";
+                }
+
+                const setup = holding.tradeSetup || {};
+                let actionBadgeStyle = "bg-stone-900 text-stone-100";
+                if (setup.action === "BUY" || setup.action === "ACCUMULATE") {
+                    actionBadgeStyle = "bg-emerald-800 text-white font-black tracking-widest";
+                } else if (setup.action === "SELL") {
+                    actionBadgeStyle = "bg-red-800 text-white font-black tracking-widest";
+                } else if (setup.action === "HOLD") {
+                    actionBadgeStyle = "bg-amber-600 text-stone-950 font-black tracking-widest";
+                }
+
+                // Compile verified source list with embedded hover cards
+                let sourcesHTML = "";
+                const sourceList = holding.sources || [];
+                if (sourceList.length > 0) {
+                    sourceList.forEach(src => {
+                        const snippetText = src.snippet || "Verified institutional update fetched from primary pipeline source.";
+                        const reliabilityTag = src.reliability || "VERIFIED";
+                        
+                        let badgeStyle = "bg-emerald-950 text-emerald-400";
+                        if (reliabilityTag === "MEDIUM") {
+                            badgeStyle = "bg-amber-950 text-amber-400";
+                        }
+                        
+                        sourcesHTML += `
+                            <div class="relative group inline-block">
+                                <a href="${src.url}" target="_blank" class="flex items-center gap-1 font-mono text-[9px] text-stone-600 hover:text-amber-800 transition font-bold leading-none py-1 px-1.5 bg-stone-100 hover:bg-amber-50 rounded-md border border-stone-200">
+                                    <span class="text-stone-400 text-[8px] font-normal">[↗]</span> ${src.title}
+                                </a>
+                                <!-- Embedded Hover Card -->
+                                <div class="source-card-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block w-72 bg-stone-950 text-stone-100 p-3.5 rounded-lg shadow-xl border border-stone-800 z-50 transition-all duration-200 font-sans">
+                                    <div class="flex justify-between items-center border-b border-stone-800 pb-1.5 mb-2">
+                                        <span class="text-[8px] font-mono font-bold tracking-wider text-amber-400 uppercase">CITATIVE EVIDENCE</span>
+                                        <span class="text-[8px] font-mono px-1.5 py-0.5 rounded ${badgeStyle} font-extrabold tracking-wide uppercase">${reliabilityTag}</span>
+                                    </div>
+                                    <h5 class="text-[10px] font-bold text-white mb-1.5 leading-snug">${src.title}</h5>
+                                    <p class="text-[10.5px] text-stone-300 leading-normal mb-2 font-serif italic">"${snippetText}"</p>
+                                    <span class="text-[8px] font-mono text-stone-500 break-all block border-t border-stone-800/50 pt-1.5 mt-1.5">${src.url}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    sourcesHTML = `<span class="font-mono text-[9px] text-stone-400 italic font-semibold">No citations registered</span>`;
+                }
+
+                const canvasId = `canvas-chart-${idx}`;
+                deepDiveContainer.innerHTML += `
+                    <div class="border border-stone-300 bg-stone-50/50 rounded-xl p-4 shadow-sm">
+                        <!-- Card Header -->
+                        <div class="flex justify-between items-center border-b border-stone-200 pb-2 mb-3">
+                            <div class="flex items-baseline gap-2">
+                                <span class="font-display text-xl font-extrabold text-stone-950">${holding.symbol}</span>
+                                <span class="text-xs text-stone-500 font-serif">${holding.name}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-[8px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-md bg-stone-900 text-stone-50">
+                                    Allocation: ${holding.allocation}
+                                </span>
+                                <span class="font-mono text-[8px] font-extrabold px-2 py-0.5 rounded-md uppercase ${stateBadge}">
+                                    ${holding.technicalState}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Card Content Grid -->
+                        <div class="grid grid-cols-3 gap-6 font-sans text-xs">
+                            
+                            <!-- Left Column: Vector Canvas Chart -->
+                            <div class="border-r border-stone-200 pr-4 flex flex-col justify-between">
+                                <div>
+                                    <span class="font-mono text-[8px] text-stone-400 font-extrabold uppercase tracking-wider block mb-1.5">
+                                        Support / Resistance Visualizer
+                                    </span>
+                                    <!-- Drawing Canvas -->
+                                    <canvas id="${canvasId}" class="w-full h-[85px] border border-stone-200 rounded-lg shadow-inner"></canvas>
+                                </div>
+
+                                <div class="mt-2.5 pt-2 border-t border-stone-150">
+                                    <span class="font-mono text-[8px] text-stone-400 font-extrabold uppercase tracking-wider block mb-0.5">
+                                        Projected Trajectory
+                                    </span>
+                                    <p class="font-serif text-[10.5px] leading-relaxed text-stone-800 font-semibold text-justify">
+                                        ${holding.trajectory}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Center Column: Catalyst News narrative with source list below -->
+                            <div class="border-r border-stone-200 pr-4 flex flex-col justify-between">
+                                <div>
+                                    <span class="font-mono text-[8px] text-stone-400 font-extrabold uppercase tracking-wider block mb-1">
+                                        Groundbreaking Catalyst News
+                                    </span>
+                                    <p class="font-serif text-[11px] leading-relaxed text-stone-700 text-justify">
+                                        ${holding.catalyst}
+                                    </p>
+                                </div>
+
+                                <div class="mt-2.5 pt-2 border-t border-stone-150">
+                                    <span class="font-mono text-[8px] text-stone-400 font-extrabold uppercase tracking-wider block mb-1.5">
+                                        Verified Citative Evidence (Hover to Inspect)
+                                    </span>
+                                    <div class="flex flex-wrap gap-2">
+                                        ${sourcesHTML}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column: Replaced with structured Agent Trading Ticket -->
+                            <div class="bg-stone-100 border border-stone-250 rounded-lg p-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1.5">
+                                        <span class="font-mono text-[8px] text-stone-500 font-extrabold uppercase tracking-wider block">
+                                            Agent Insight
+                                        </span>
+                                        <span class="font-mono text-[9px] px-2 py-0.5 rounded uppercase ${actionBadgeStyle}">
+                                            ${setup.action || "HOLD"}
+                                        </span>
+                                    </div>
+                                    <p class="font-sans text-[11px] leading-relaxed text-stone-800 text-justify">
+                                        ${setup.reasoning || ""}
+                                    </p>
+                                </div>
+                                
+                                <div class="grid grid-cols-3 gap-1.5 border-t border-stone-200 pt-2 mt-2">
+                                    <div class="text-center bg-white p-1 rounded border border-stone-150">
+                                        <span class="font-mono text-[7px] text-stone-400 block uppercase font-bold tracking-wider">Entry</span>
+                                        <span class="font-mono text-[10px] font-extrabold text-stone-950">${setup.entry || "N/A"}</span>
+                                    </div>
+                                    <div class="text-center bg-white p-1 rounded border border-stone-150">
+                                        <span class="font-mono text-[7px] text-red-500 block uppercase font-bold tracking-wider">Stop Loss</span>
+                                        <span class="font-mono text-[10px] font-extrabold text-red-700">${setup.stopLoss || "N/A"}</span>
+                                    </div>
+                                    <div class="text-center bg-white p-1 rounded border border-stone-150">
+                                        <span class="font-mono text-[7px] text-emerald-600 block uppercase font-bold tracking-wider">Target</span>
+                                        <span class="font-mono text-[10px] font-extrabold text-emerald-800">${setup.target || "N/A"}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                `;
+
+                // Render vector graph on the fly
+                setTimeout(() => {
+                    drawVectorTechnicalChart(canvasId, parseFloat(holding.current), parseFloat(holding.support), parseFloat(holding.resistance));
+                }, 50);
+            });
+        }
+    </script>
+</body>
+</html>
