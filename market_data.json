@@ -1,0 +1,541 @@
+{
+  "generated_at": "2026-07-01T06:17:22.611325+00:00",
+  "source": "yfinance",
+  "tickers": [
+    "NVDA",
+    "PLTR",
+    "SOFI",
+    "AAPL",
+    "MSFT",
+    "NFLX",
+    "NOW",
+    "VOO",
+    "M14.SI",
+    "D05.SI",
+    "AVGO",
+    "KLCCSS"
+  ],
+  "data": {
+    "NVDA": {
+      "price": {
+        "ticker": "NVDA",
+        "price": 200.09,
+        "change_pct": 2.626,
+        "volume": 163092701,
+        "week52_high": 236.54,
+        "week52_low": 151.49,
+        "sma_50": 209.83,
+        "sma_200": 190.63,
+        "rsi_14": 39.55,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "Nvidia stock is sagging. Here's what's behind the negative short-term trend.",
+          "publisher": "Yahoo Finance",
+          "link": "https://finance.yahoo.com/markets/stocks/article/nvidia-stock-is-sagging-heres-whats-behind-the-negative-short-term-trend-120447121.html",
+          "published_at": "2026-06-30T12:04:47Z"
+        },
+        {
+          "headline": "SpaceX Nears a Major Milestone Within 15 Days, and Investors Should Pay Attention",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/investing/2026/07/01/spacex-nears-a-major-milestone-within-15-days-and/",
+          "published_at": "2026-07-01T05:50:00Z"
+        },
+        {
+          "headline": "Prediction: NuScale Power Stock Is a Buy Before August",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/investing/2026/07/01/prediction-hot-ticker-stock-is-a-buy-before-august/",
+          "published_at": "2026-07-01T05:20:00Z"
+        },
+        {
+          "headline": "Flex Ltd. (FLEX) Introduces Three New Power Solutions at COMPUTEX 2026",
+          "publisher": "Insider Monkey",
+          "link": "https://finance.yahoo.com/technology/ai/articles/flex-ltd-flex-introduces-three-044154695.html",
+          "published_at": "2026-07-01T04:41:54Z"
+        },
+        {
+          "headline": "Coherent (COHR): Top 10 Stock To Buy That Was Added to the S&P 500 Recently?",
+          "publisher": "Insider Monkey",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/coherent-cohr-top-10-stock-044147114.html",
+          "published_at": "2026-07-01T04:41:47Z"
+        }
+      ]
+    },
+    "PLTR": {
+      "price": {
+        "ticker": "PLTR",
+        "price": 116.67,
+        "change_pct": 0.8384,
+        "volume": 35240249,
+        "week52_high": 207.52,
+        "week52_low": 106.37,
+        "sma_50": 135.32,
+        "sma_200": 158.35,
+        "rsi_14": 51.08,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "SpaceX Is ‘Much More Of An AI Play’ Than A Space Company, Says Dan Ives — Here’s The Bull Case",
+          "publisher": "Stocktwits",
+          "link": "https://stocktwits.com/news-articles/markets/equity/spacex-more-ai-play-than-space-company-dan-ives-bull-case/cZmdul9R70A",
+          "published_at": "2026-07-01T00:08:41Z"
+        },
+        {
+          "headline": "S&P 500, Nasdaq End Higher As Chipmakers Rally, While Dow Posts Best First Half In Five Years — LUNR, AMZN, PLTR, XYZ, AVAV In Focus",
+          "publisher": "Stocktwits",
+          "link": "https://stocktwits.com/news-articles/markets/equity/s-and-p-500-nasdaq-end-higher-as-chipmakers-rally-while-dow-posts-best-first-half-in-five-years-lunr-amzn-pltr-xyz-avav-in-focus/cZ1QvpOR70p",
+          "published_at": "2026-06-30T22:57:35Z"
+        },
+        {
+          "headline": "Binance Expands bStocks Offering and Adds Microsoft, Meta and More",
+          "publisher": "BeInCrypto",
+          "link": "https://beincrypto.com/binance-bstocks-microsoft-meta-palantir-tokenized-stocks/",
+          "published_at": "2026-06-30T20:40:08Z"
+        },
+        {
+          "headline": "Nvidia (NVDA) Teams With Palantir To Bring Sovereign AI To Government",
+          "publisher": "Simply Wall St.",
+          "link": "https://finance.yahoo.com/technology/ai/articles/nvidia-nvda-teams-palantir-bring-200715360.html",
+          "published_at": "2026-06-30T20:07:15Z"
+        },
+        {
+          "headline": "Software Stocks Have Gotten Crushed. These 2 Have Defied the Selloff.",
+          "publisher": "Barrons.com",
+          "link": "https://www.barrons.com/articles/software-stocks-jfrog-qualsys-technical-analysis-c594c368?siteid=yhoof2&yptr=yahoo",
+          "published_at": "2026-06-30T19:28:00Z"
+        }
+      ]
+    },
+    "SOFI": {
+      "price": {
+        "ticker": "SOFI",
+        "price": 17.93,
+        "change_pct": -1.4294,
+        "volume": 74097874,
+        "week52_high": 32.73,
+        "week52_low": 14.92,
+        "sma_50": 16.91,
+        "sma_200": 22.42,
+        "rsi_14": 54.98,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "Dave Stock Outlook as CashAI and ExtraCash Fuel 2026 Momentum",
+          "publisher": "Zacks",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/dave-stock-outlook-cashai-extracash-164600156.html",
+          "published_at": "2026-06-30T16:46:00Z"
+        },
+        {
+          "headline": "Here's Why Wall Street And Big Tech Are Uniting Behind A Stablecoin To Rival Circle And Tether",
+          "publisher": "Stocktwits",
+          "link": "https://stocktwits.com/news-articles/markets/cryptocurrency/wallstreet-big-tech-stablecoin-rival-circle-tether/cZ1QN3GR70B",
+          "published_at": "2026-06-30T16:20:42Z"
+        },
+        {
+          "headline": "Dave Stock and the Fintech Shift to AI-Led Small-Dollar Credit Models",
+          "publisher": "Zacks",
+          "link": "https://finance.yahoo.com/small-business/articles/dave-stock-fintech-shift-ai-160200296.html",
+          "published_at": "2026-06-30T16:02:00Z"
+        },
+        {
+          "headline": "SoFi Stock Is Consolidating, but the Long-Term Investment Case Remains Strong",
+          "publisher": "Barchart",
+          "link": "https://www.barchart.com/story/news/3058270/sofi-stock-is-consolidating-but-the-long-term-investment-case-remains-strong",
+          "published_at": "2026-06-30T15:48:48Z"
+        },
+        {
+          "headline": "Is DAVE Stock Still Worth Buying After Its Run and Raised Outlook",
+          "publisher": "Zacks",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/dave-stock-still-worth-buying-154000785.html",
+          "published_at": "2026-06-30T15:40:00Z"
+        }
+      ]
+    },
+    "AAPL": {
+      "price": {
+        "ticker": "AAPL",
+        "price": 289.36,
+        "change_pct": 2.7046,
+        "volume": 64460950,
+        "week52_high": 317.4,
+        "week52_low": 201.5,
+        "sma_50": 292.17,
+        "sma_200": 269.65,
+        "rsi_14": 53.99,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "Apple is trying to address AI-related cybersecurity risks. What's going on?",
+          "publisher": "Yahoo Finance Video",
+          "link": "https://finance.yahoo.com/video/apple-is-trying-to-address-ai-related-cybersecurity-risks-whats-going-on-202159291.html",
+          "published_at": "2026-06-30T20:21:59Z"
+        },
+        {
+          "headline": "Update: Dow Hits Fresh High as Wall Street Posts Solid Quarterly Gains",
+          "publisher": "MT Newswires",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/dow-hits-fresh-high-wall-204049573.html",
+          "published_at": "2026-06-30T20:40:49Z"
+        },
+        {
+          "headline": "What Could Send Google Stock Into A New Gear?",
+          "publisher": "Trefis",
+          "link": "https://www.trefis.com/articles/605149/what-could-send-google-stock-into-a-new-gear/2026-06-30",
+          "published_at": "2026-06-30T20:32:39Z"
+        },
+        {
+          "headline": "Retail Trading in Magnificent Seven Falls to 6%, Citi Says",
+          "publisher": "GuruFocus.com",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/retail-trading-magnificent-seven-falls-202042345.html",
+          "published_at": "2026-06-30T20:20:42Z"
+        },
+        {
+          "headline": "American Express Adds Apple Pay Rewards Redemption for US Cardholders",
+          "publisher": "GuruFocus.com",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/american-express-adds-apple-pay-201838820.html",
+          "published_at": "2026-06-30T20:18:38Z"
+        }
+      ]
+    },
+    "MSFT": {
+      "price": {
+        "ticker": "MSFT",
+        "price": 373.02,
+        "change_pct": 1.2074,
+        "volume": 43820658,
+        "week52_high": 555.45,
+        "week52_low": 349.2,
+        "sma_50": 408.53,
+        "sma_200": 445.0,
+        "rsi_14": 45.28,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "Were the Mag 7 more like the Lag 7 in Q2 2026?",
+          "publisher": "Yahoo Finance Video",
+          "link": "https://finance.yahoo.com/video/were-the-mag-7-more-like-the-lag-7-in-q2-2026-140012890.html",
+          "published_at": "2026-06-30T14:00:12Z"
+        },
+        {
+          "headline": "Microsoft Layoffs Coming Next Week? MSFT Stock Climbs Overnight, Retail Stays Bullish",
+          "publisher": "Stocktwits",
+          "link": "https://stocktwits.com/news-articles/markets/equity/microsoft-layoffs-coming-next-week-msft-stock-climbs-overnight-retail-stays-bullish/cZm3TWRR7K2",
+          "published_at": "2026-07-01T05:40:22Z"
+        },
+        {
+          "headline": "Genpact (G) Launches AI Deductions Recovery Tool For Consumer Goods Companies",
+          "publisher": "Simply Wall St.",
+          "link": "https://finance.yahoo.com/technology/ai/articles/genpact-g-launches-ai-deductions-050730081.html",
+          "published_at": "2026-07-01T05:07:30Z"
+        },
+        {
+          "headline": "Why Did INTC, AMD, BB Stocks Surge To 52-Week Highs?",
+          "publisher": "Stocktwits",
+          "link": "https://stocktwits.com/news-articles/markets/equity/why-did-intc-amd-bb-stocks-surge-to-52-week-highs/cZm3GPrR706",
+          "published_at": "2026-07-01T04:14:19Z"
+        },
+        {
+          "headline": "Wayve launches $85M employee tender offer at $8.5B valuation",
+          "publisher": "TechCrunch",
+          "link": "https://finance.yahoo.com/technology/ai/articles/wayve-launches-85m-employee-tender-020440443.html",
+          "published_at": "2026-07-01T02:04:40Z"
+        }
+      ]
+    },
+    "NFLX": {
+      "price": {
+        "ticker": "NFLX",
+        "price": 71.4,
+        "change_pct": -3.2258,
+        "volume": 48511560,
+        "week52_high": 133.88,
+        "week52_low": 70.86,
+        "sma_50": 84.83,
+        "sma_200": 96.54,
+        "rsi_14": 19.97,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "Netflix (NFLX) Stock Slides as Market Rises: Facts to Know Before You Trade",
+          "publisher": "Zacks",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/netflix-nflx-stock-slides-market-214506041.html",
+          "published_at": "2026-06-30T21:45:06Z"
+        },
+        {
+          "headline": "Should You Buy Netflix Stock Right Now?",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/investing/2026/06/30/should-you-buy-netflix-stock-right-now/",
+          "published_at": "2026-06-30T20:37:00Z"
+        },
+        {
+          "headline": "What Could Send Google Stock Into A New Gear?",
+          "publisher": "Trefis",
+          "link": "https://www.trefis.com/articles/605149/what-could-send-google-stock-into-a-new-gear/2026-06-30",
+          "published_at": "2026-06-30T20:32:39Z"
+        },
+        {
+          "headline": "Comcast Surges 17% After Unveiling NBCUniversal Spin-Off Plan",
+          "publisher": "GuruFocus.com",
+          "link": "https://finance.yahoo.com/media-advertising/articles/comcast-surges-17-unveiling-nbcuniversal-203048920.html",
+          "published_at": "2026-06-30T20:30:48Z"
+        },
+        {
+          "headline": "Comcast Spin-Off Could Unlock NBCUniversal as Disney-Style Valuation Comes Into Focus",
+          "publisher": "GuruFocus.com",
+          "link": "https://finance.yahoo.com/media-advertising/articles/comcast-spin-off-could-unlock-201852743.html",
+          "published_at": "2026-06-30T20:18:52Z"
+        }
+      ]
+    },
+    "NOW": {
+      "price": {
+        "ticker": "NOW",
+        "price": 99.28,
+        "change_pct": -0.6902,
+        "volume": 17873608,
+        "week52_high": 211.48,
+        "week52_low": 81.24,
+        "sma_50": 99.9,
+        "sma_200": 133.66,
+        "rsi_14": 57.15,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "Is The Market Ignoring The Real Growth Story In Salesforce Stock?",
+          "publisher": "Trefis",
+          "link": "https://www.trefis.com/articles/605160/is-the-market-ignoring-the-real-growth-story-in-salesforce-stock/2026-06-30",
+          "published_at": "2026-06-30T19:57:23Z"
+        },
+        {
+          "headline": "Adobe vs. ServiceNow: Which Technology Stock Is a Better Buy in 2026?",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/coverage/better-buy/2026/06/30/adobe-vs-servicenow-which-technology-stock-is-a-better-buy-in-2026/",
+          "published_at": "2026-06-30T12:52:05Z"
+        },
+        {
+          "headline": "This Week In Cloud AI - AI-Powered Attacks Highlight Gaps In Cloud Security Strategies",
+          "publisher": "Simply Wall St.",
+          "link": "https://finance.yahoo.com/technology/ai/articles/week-cloud-ai-ai-powered-123805790.html",
+          "published_at": "2026-06-30T12:38:05Z"
+        },
+        {
+          "headline": "ServiceNow's Q2 2026 Earnings: What to Expect",
+          "publisher": "Barchart",
+          "link": "https://www.barchart.com/story/news/3052357/servicenow-s-q2-2026-earnings-what-to-expect",
+          "published_at": "2026-06-30T12:12:15Z"
+        },
+        {
+          "headline": "ServiceNow, Accenture unveil AI-driven cyber risk management offering",
+          "publisher": "Verdict",
+          "link": "https://www.verdict.co.uk/servicenow-accenture-cyber-risk-management/",
+          "published_at": "2026-06-30T11:10:53Z"
+        }
+      ]
+    },
+    "VOO": {
+      "price": {
+        "ticker": "VOO",
+        "price": 686.81,
+        "change_pct": 0.8517,
+        "volume": 6004801,
+        "week52_high": 699.15,
+        "week52_low": 565.8,
+        "sma_50": 674.82,
+        "sma_200": 632.04,
+        "rsi_14": 50.69,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "The Vanguard S&P 500 ETF Is Riskier Than You Think. This Could Be a Better Option.",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/investing/2026/06/30/the-vanguard-sp-500-etf-is-riskier-than-you-think/",
+          "published_at": "2026-06-30T20:56:00Z"
+        },
+        {
+          "headline": "Should You Forget the Vanguard Total Stock Market ETF? Here's What History Says.",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/investing/2026/06/30/should-forget-vanguard-total-stock-market-etf/",
+          "published_at": "2026-06-30T18:08:00Z"
+        },
+        {
+          "headline": "Could This Dividend ETF Be Your Ticket to $500 per Month in Passive Income?",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/investing/2026/06/30/dividend-etf-ticket-to-500-month-income-schd/",
+          "published_at": "2026-06-30T16:51:00Z"
+        },
+        {
+          "headline": "The Best Dividend ETF to Buy With $1,000 Right Now -- Up 18% This Year",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/investing/2026/06/30/best-dividend-etf-to-buy-with-1000-right-now/",
+          "published_at": "2026-06-30T15:50:00Z"
+        },
+        {
+          "headline": "Prediction: This Overlooked ETF Could Be the Smartest Buy of 2026",
+          "publisher": "Motley Fool",
+          "link": "https://www.fool.com/investing/2026/06/30/predict-overlooked-etf-smart-buy-2026-ixus/",
+          "published_at": "2026-06-30T09:33:00Z"
+        }
+      ]
+    },
+    "M14.SI": {
+      "price": {
+        "ticker": "M14.SI",
+        "price": 0.68,
+        "change_pct": 0.7463,
+        "volume": 1024500,
+        "week52_high": 0.98,
+        "week52_low": 0.36,
+        "sma_50": 0.75,
+        "sma_200": 0.69,
+        "rsi_14": 32.43,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "Why InnoTek's (SGX:M14) Soft Earnings Are Just The Beginning Of Its Problems",
+          "publisher": "Simply Wall St.",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/why-innoteks-sgx-m14-soft-222600446.html",
+          "published_at": "2026-04-21T22:26:00Z"
+        },
+        {
+          "headline": "3 Asian Penny Stocks With Market Caps Under US$2B",
+          "publisher": "Simply Wall St.",
+          "link": "https://finance.yahoo.com/news/3-asian-penny-stocks-market-050514084.html",
+          "published_at": "2026-01-22T05:05:14Z"
+        },
+        {
+          "headline": "InnoTek Limited's (SGX:M14) top owners are private companies with 38% stake, while 35% is held by individual investors",
+          "publisher": "Simply Wall St.",
+          "link": "https://finance.yahoo.com/news/innotek-limiteds-sgx-m14-top-011531256.html",
+          "published_at": "2026-01-04T01:15:31Z"
+        },
+        {
+          "headline": "Those who invested in InnoTek (SGX:M14) three years ago are up 92%",
+          "publisher": "Simply Wall St.",
+          "link": "https://finance.yahoo.com/news/those-invested-innotek-sgx-m14-001833165.html",
+          "published_at": "2025-11-24T00:18:33Z"
+        },
+        {
+          "headline": "Asian Penny Stocks: 3 Picks With Market Caps Over US$100M To Watch",
+          "publisher": "Simply Wall St.",
+          "link": "https://finance.yahoo.com/news/asian-penny-stocks-3-picks-231214655.html",
+          "published_at": "2025-10-13T23:12:14Z"
+        }
+      ]
+    },
+    "D05.SI": {
+      "price": {
+        "ticker": "D05.SI",
+        "price": 65.54,
+        "change_pct": 0.2141,
+        "volume": 1532560,
+        "week52_high": 67.0,
+        "week52_low": 44.65,
+        "sma_50": 61.61,
+        "sma_200": 55.78,
+        "rsi_14": 52.8,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "Lenovo Raises $2 Billion From Seven-Year Convertible Bonds",
+          "publisher": "Bloomberg",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/lenovo-raises-2-billion-seven-041224985.html",
+          "published_at": "2026-06-18T04:12:24Z"
+        },
+        {
+          "headline": "Singapore Lines Up JPMorgan, Deutsche Bank For Gold-Clearing Push",
+          "publisher": "GuruFocus.com",
+          "link": "https://finance.yahoo.com/markets/commodities/articles/singapore-lines-jpmorgan-deutsche-bank-132417069.html",
+          "published_at": "2026-06-15T13:24:17Z"
+        },
+        {
+          "headline": "Singapore bank DBS to offer tokenised physical gold to retail customers",
+          "publisher": "Reuters",
+          "link": "https://finance.yahoo.com/markets/commodities/articles/singapore-bank-dbs-offer-tokenised-030408596.html",
+          "published_at": "2026-06-11T03:04:08Z"
+        },
+        {
+          "headline": "FBP vs. DBSDY: Which Stock Is the Better Value Option?",
+          "publisher": "Zacks",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/fbp-vs-dbsdy-stock-better-154001214.html",
+          "published_at": "2026-06-09T15:40:01Z"
+        },
+        {
+          "headline": "Jensen Huang pitches AI returns to family offices at Taipei event",
+          "publisher": "Quartz",
+          "link": "https://qz.com/jensen-huang-ai-returns-family-offices-taipei-060326",
+          "published_at": "2026-06-03T13:24:27Z"
+        }
+      ]
+    },
+    "AVGO": {
+      "price": {
+        "ticker": "AVGO",
+        "price": 377.75,
+        "change_pct": 1.423,
+        "volume": 26920879,
+        "week52_high": 495.0,
+        "week52_low": 262.66,
+        "sma_50": 410.3,
+        "sma_200": 360.14,
+        "rsi_14": 43.8,
+        "error": null
+      },
+      "news": [
+        {
+          "headline": "This Blue-Chip Dividend Stock Just Boosted Its Payout by 200% to $0.60 Per Share",
+          "publisher": "Barchart",
+          "link": "https://www.barchart.com/story/news/3066051/this-blue-chip-dividend-stock-just-boosted-its-payout-by-200-to-0-60-per-share",
+          "published_at": "2026-06-30T23:30:02Z"
+        },
+        {
+          "headline": "S&P 500, Nasdaq Rode AI Boom to First-Half Records",
+          "publisher": "The Wall Street Journal",
+          "link": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-06-30-2026/card/s-p-500-nasdaq-rode-ai-boom-to-first-half-records-XyiMfoIDbQ6yRIN66Bcs?siteid=yhoof2&yptr=yahoo",
+          "published_at": "2026-06-30T22:55:19Z"
+        },
+        {
+          "headline": "Marvell Stock And The High-Stakes Forecast Behind The AI Story",
+          "publisher": "Trefis",
+          "link": "https://www.trefis.com/articles/604949/marvell-stock-and-the-high-stakes-forecast-behind-the-ai-story/2026-06-30",
+          "published_at": "2026-06-30T22:40:42Z"
+        },
+        {
+          "headline": "Broadcom’s Stock Has Slumped Over 20% From Its Highs. These Experts Say They Would Buy the Dip",
+          "publisher": "Investopedia",
+          "link": "https://www.investopedia.com/broadcom-stock-has-slumped-over-20-percent-from-its-highs-these-experts-say-they-would-buy-the-dip-avgo-12009555",
+          "published_at": "2026-06-30T21:22:18Z"
+        },
+        {
+          "headline": "One Thing I’m Watching: The Great Tech Divergence",
+          "publisher": "The Wall Street Journal",
+          "link": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-06-30-2026/card/one-thing-i-m-watching-the-great-tech-divergence-cEcX6briJxLUOBfDs1zj?siteid=yhoof2&yptr=yahoo",
+          "published_at": "2026-06-30T20:49:25Z"
+        }
+      ]
+    },
+    "KLCCSS": {
+      "price": {
+        "ticker": "KLCCSS",
+        "price": null,
+        "change_pct": null,
+        "volume": null,
+        "week52_high": null,
+        "week52_low": null,
+        "sma_50": null,
+        "sma_200": null,
+        "rsi_14": null,
+        "error": null
+      },
+      "news": []
+    }
+  }
+}

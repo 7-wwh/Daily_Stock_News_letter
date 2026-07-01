@@ -1,0 +1,101 @@
+{
+  "account": "Moomoo Universal Account",
+  "base_currency": "USD",
+  "last_updated": "2026-06-30",
+  "holdings": [
+    {
+      "ticker": "NVDA",
+      "exchange": "NASDAQ",
+      "name": "NVIDIA Corporation",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Semiconductors"
+    },
+    {
+      "ticker": "PLTR",
+      "exchange": "NASDAQ",
+      "name": "Palantir Technologies",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Software / AI"
+    },
+    {
+      "ticker": "SOFI",
+      "exchange": "NASDAQ",
+      "name": "SoFi Technologies",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Fintech"
+    },
+    {
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "name": "Apple Inc.",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Consumer Tech"
+    },
+    {
+      "ticker": "MSFT",
+      "exchange": "NASDAQ",
+      "name": "Microsoft Corporation",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Software / Cloud"
+    },
+    {
+      "ticker": "NFLX",
+      "exchange": "NASDAQ",
+      "name": "Netflix Inc.",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Media / Streaming"
+    },
+    {
+      "ticker": "NOW",
+      "exchange": "NYSE",
+      "name": "ServiceNow Inc.",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Enterprise Software"
+    },
+    {
+      "ticker": "VOO",
+      "exchange": "NYSEARCA",
+      "name": "Vanguard S&P 500 ETF",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Broad Market ETF"
+    },
+    {
+      "ticker": "M14.SI",
+      "exchange": "SGX",
+      "name": "InnoTek Ltd",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Manufacturing / Components"
+    },
+    {
+      "ticker": "D05.SI",
+      "exchange": "SGX",
+      "name": "DBS Group Holdings",
+      "quantity": 0,
+      "avg_cost": 0.0,
+      "sector": "Banking / Financials"
+    }
+  ],
+  "watchlist": [
+    {
+      "ticker": "AVGO",
+      "exchange": "NASDAQ",
+      "name": "Broadcom Inc.",
+      "sector": "Semiconductors"
+    },
+    {
+      "ticker": "KLCCSS",
+      "exchange": "Bursa Malaysia",
+      "name": "KLCC Property Holdings",
+      "sector": "REIT"
+    }
+  ]
+}
