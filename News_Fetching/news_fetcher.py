@@ -38,6 +38,10 @@ import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+import sys
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR))
 
 import yfinance as yf
 from tavily import TavilyClient
@@ -48,12 +52,13 @@ from portfolio_loader import load_portfolio
 # ─────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────
+MACRO_QUERIES_FILE = str(BASE_DIR / "News_Fetching" / "macro_queries.json")
 TAVILY_API_KEY    = os.getenv("TAVILY_API_KEY", "YOUR_TAVILY_API_KEY_HERE")
-PORTFOLIO_FILE    = "stock_portfolio.json"
-OUTPUT_FILE       = "market_news.json"
+PORTFOLIO_FILE    = str(BASE_DIR / "stock_portfolio.json")
+OUTPUT_FILE       = str(BASE_DIR / "market_data.json")
 
 # Budget controls
-YF_NEWS_LIMIT     = 5     # headlines per ticker from yfinance (free)
+YF_NEWS_LIMIT     = 100     # headlines per ticker from yfinance (free)
 MICRO_RESULTS     = 5     # search results per ticker (Tavily search)
 MICRO_EXTRACT     = 2     # how many URLs to deep-extract per ticker (Tavily extract)
 MACRO_RESULTS     = 5     # search results per macro theme
@@ -63,26 +68,28 @@ DELAY_SECONDS     = 1.0   # polite delay between calls
 
 # ─────────────────────────────────────────────
 # MACRO THEME QUERIES
-# Consolidated from 8 → 5 to conserve budget.
-# Each query covers multiple related angles.
+# Loaded dynamically from macro_queries.json
+# Updated weekly by macro_query_updater.py
 # ─────────────────────────────────────────────
-MACRO_QUERIES = [
-    # US Monetary + Macro
-    "Federal Reserve interest rate inflation CPI PCE outlook 2026",
+def load_macro_queries(path: str = MACRO_QUERIES_FILE) -> list[dict]:
+    """
+    Load macro queries from macro_queries.json.
+    Returns list of query dicts: {id, theme, query, rationale}
+    Falls back to empty list with warning if file is missing.
+    """
+    try:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        queries = data.get("queries", [])
+        print(f"  Loaded {len(queries)} macro queries from {path}")
+        return queries
+    except FileNotFoundError:
+        print(f"  ⚠️  {path} not found — run macro_query_updater.py first")
+        return []
+    except json.JSONDecodeError as e:
+        print(f"  ⚠️  {path} is malformed: {e}")
+        return []
 
-    # US Equity + AI/Tech sector
-    "US stock market S&P 500 technology AI semiconductor sector outlook today",
-
-    # SEA markets — SGX + Bursa combined
-    "Singapore SGX Malaysia Bursa stock market news today 2026",
-
-    # Geopolitical risk — US/China + trade
-    "US China trade tariffs technology export controls geopolitical risk 2026",
-
-    # Global capital flows + risk-off/risk-on
-    "global emerging markets capital flow recession risk credit outlook 2026",
-]
-
+MACRO_QUERIES = load_macro_queries(MACRO_QUERIES_FILE)
 
 # ─────────────────────────────────────────────
 # LAYER 1 — yfinance (ground truth, zero cost)
@@ -215,7 +222,8 @@ def fetch_macro_news(
     print(f"\n── LAYER 2b: Tavily macro themes ({'─'*22})")
     results = []
 
-    for query in MACRO_QUERIES:
+    for q in MACRO_QUERIES:
+        query = q.get("query", "")
         label = query[:55]
         print(f"  [macro search] {label}...", end=" ", flush=True)
 
@@ -268,6 +276,8 @@ def fetch_macro_news(
 
         results.append({
             "query":          query,
+            "theme":          q.get("theme", ""),
+            "rationale":      q.get("rationale", ""),
             "tavily_summary": tavily_summary,
             "search_results": search_results,
             "full_articles":  full_articles,
@@ -348,13 +358,16 @@ def run(portfolio_file: str = PORTFOLIO_FILE) -> tuple[dict, dict, list]:
 if __name__ == "__main__":
     yf_news, micro, macro = run(PORTFOLIO_FILE)
 
+    payload = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "source":       "yfinance + tavily",
+        "yf_news":      yf_news,
+        "micro_news":   micro,
+        "macro_news":   macro,
+    }
+
     output_path = Path(OUTPUT_FILE)
-    existing = json.loads(output_path.read_text()) if output_path.exists() else {}
-    existing["yf_news"]      = yf_news
-    existing["micro_news"]   = micro
-    existing["macro_news"]   = macro
-    existing["generated_at"] = datetime.now(timezone.utc).isoformat()
-    output_path.write_text(json.dumps(existing, indent=2, ensure_ascii=False))
+    output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False))
 
     yf_total    = sum(len(v) for v in yf_news.values())
     micro_total = len(micro)
