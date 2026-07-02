@@ -23,30 +23,25 @@ Hermes ingests raw financial market data from multi-agent research swarms and co
 
 ```mermaid
 flowchart LR
-    subgraph Input
-        P[Portfolio Feed<br/>holdings, watchlist]
+    subgraph Data
+        P[Portfolio: stock_portfolio.json]
     end
 
-    subgraph Orchestration["cron_orchestrator.py"]
-        O[Daily Trigger] --> D{Dispatch<br/>async agents}
+    subgraph Fetchers["Fetcher Scripts"]
+        M[market_fetcher.py<br/>Prices + Technicals]
+        N[news_fetcher.py<br/>News (Tavily)]
     end
 
-    subgraph Swarm["Hermes Agent Swarm (parallel, async)"]
-        A1[Catalyst Scanner]
-        A2[Risk Flagger]
-        A3[Technical Reader]
-        A4[Sector Sentiment]
+    subgraph Output
+        D[market_data.json]
+        T[template.html]
     end
 
-    subgraph Compile["compile_pdf.py"]
-        J[JSON Payload] --> R[Jinja2 Render]
-        R --> T[template.html<br/>+ Tailwind CSS]
-    end
-
-    P --> O
-    D --> A1 & A2 & A3 & A4
-    A1 & A2 & A3 & A4 --> J
-    T --> H[Daily Brief<br/>HTML / Print-to-PDF]
+    P --> M
+    P --> N
+    M --> D
+    N --> D
+    D --> T
 ```
 
 ---
@@ -55,64 +50,37 @@ flowchart LR
 
 | Layer | Technology | Role |
 |---|---|---|
-| Orchestration | Python + `cron_orchestrator.py` | Daily-cadence trigger, fires parallel async sub-agents |
-| Model Layer | Free-tier LLM agents | One agent per research domain, kept cost-efficient at daily cadence |
-| Data Layer | JSON payloads | Dynamic portfolio injection — tickers read from holdings, never hardcoded |
-| Rendering | HTML5 + Tailwind CSS | Editorial grid layout |
-| Templating | Jinja2 | Binds JSON payload to `template.html` |
-| Compilation | `compile_pdf.py` | Bridges agent output → static template → print-ready HTML |
-| Typography | Google Fonts | Playfair Display, Cinzel, JetBrains Mono |
+| Data | JSON | Portfolio holdings (`stock_portfolio.json`) and fetched data (`market_data.json`) |
+| Fetching | Python | `market_fetcher.py` (yfinance, pandas-ta), `news_fetcher.py` (Tavily) |
+| Rendering | HTML5 + Tailwind CSS | Editorial grid layout in `template.html` |
+| Templating | Jinja2 | (Planned) Binds data to template |
 
 ---
 
 ## 📂 Project Structure
 
 ```
-hermes/
-├── soul.md                    # Identity & behavioral spec: tone, output discipline, signal-vs-noise rules
-├── cron_orchestrator.py       # Scheduling layer, fires the daily agent swarm
-├── agents/
-│   ├── catalyst_scanner.py
-│   ├── risk_flagger.py
-│   ├── technical_reader.py
-│   └── sector_sentiment.py
-├── compile_pdf.py             # Loads JSON payload, renders template, outputs ready-to-print HTML
-├── template.html              # Master editorial template (CSS, Tailwind config, Jinja2 placeholders)
-├── sample_hermes_output.json  # Example agent payload (sample portfolio: NVDA, PLTR, SOFI, AAPL, MSFT, NFLX, NOW, VOO, M14.SI, D05.SI)
-└── README.md                  # You are here
+├── README.md                  # You are here
+├── BUILD_PLAN.md              # Original architectural blueprint
+├── market_fetcher.py          # Fetches price + technicals, computes verdict
+├── news_fetcher.py            # Fetches news (Tavily)
+├── portfolio_loader.py        # Loads stocks from portfolio JSON
+├── stock_portfolio.json       # Input portfolio
+├── market_data.json           # Output market data
+└── template.html              # Frontend template
 ```
 
 ---
 
 ## ⚙️ Workflow
 
-```mermaid
-sequenceDiagram
-    participant Cron as cron_orchestrator.py
-    participant Port as Portfolio Feed
-    participant Swarm as Agent Swarm (async)
-    participant Compile as compile_pdf.py
-    participant Out as Daily Brief
-
-    Cron->>Port: Sync current holdings
-    Port-->>Cron: Watch universe (SGX / Bursa / US)
-    Cron->>Swarm: Dispatch in parallel
-    Swarm-->>Cron: Catalysts, risks, technicals, sentiment (JSON)
-    Cron->>Compile: Hand off consolidated payload
-    Compile->>Compile: Render Jinja2 → template.html
-    Compile->>Out: Print-ready HTML
-    Out->>Out: Print to PDF (manual or Playwright)
-```
-
-1. **Portfolio Sync** — orchestrator reads current holdings, builds the day's watch universe (no hardcoded ticker list).
-2. **Ingestion** — parallel async sub-agents scan market data, sentiment, and technicals across that universe, each outputting a valid JSON payload.
-3. **Compilation** — run the compiler to bind agent output to the visual template:
-
-   ```bash
-   python compile_pdf.py
-   ```
-
-4. **Consumption** — open the resulting HTML to read the brief, or print directly to PDF for a physical daily dossier.
+1.  **Portfolio Sync** — Define tickers in `stock_portfolio.json`.
+2.  **Data Ingestion** — Run fetcher scripts to populate `market_data.json`:
+    ```bash
+    python market_fetcher.py
+    python news_fetcher.py
+    ```
+3.  **Consumption** — Open `template.html` in a browser to review the brief.
 
 ---
 
@@ -121,7 +89,7 @@ sequenceDiagram
 **Editing the layout** — `template.html` is pure Tailwind; adjust grid density, typography scale, or color palette by editing classes directly.
 
 **Extending agent data** — to add a new field (e.g. a "Sector Sentiment" score):
-1. Update `compile_pdf.py` to handle the new JSON key.
+1. Update the relevant fetcher script (`market_fetcher.py` or `news_fetcher.py`) to handle the new data.
 2. Add the matching Jinja2 placeholder (`{{ new_data_key }}`) to `template.html`.
 
 **Adjusting portfolio scope** — ticker coverage is injected dynamically. Update the source portfolio feed; the next orchestrator run picks it up automatically, no template edits needed.
