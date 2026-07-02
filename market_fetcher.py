@@ -1,39 +1,39 @@
 """
-market_fetcher.py
-
-Fetches live price data and recent news for every ticker in your portfolio.
-Takes the ticker list from portfolio_loader.py and outputs a structured
-JSON file that the Hermes agents will use to build the daily brief.
+market_fetcher.py  —  Hermes Financial Intelligence Pipeline
+─────────────────────────────────────────────────────────────
+Fetches live price data and computes technical indicators for
+every ticker in your portfolio. News is handled separately by
+news_fetcher.py via Tavily.
 
 What this fetches per ticker:
-  - Current price, % change, volume
-  - 52-week high / low
-  - Simple moving averages (SMA 50, SMA 200)
-  - RSI (14-day)
-  - Recent news headlines + links
+    - Current price, % change, volume
+    - 52-week high / low
+    - SMA 50, SMA 200, EMA 20, EMA 50
+    - RSI 14, MACD, Bollinger Bands, ADX, Stochastic, ATR
+    - Pre-computed verdict (Strong Buy → Strong Sell)
+
+Output:
+    Writes to market_data.json under key "prices"
 
 Usage:
     python market_fetcher.py
 
-Output:
-    market_data.json — stored in the same folder, ready for the agents.
+Dependencies:
+    pip install yfinance pandas pandas-ta
 """
 
 import json
 import time
-import logging
-import argparse
+import warnings
 from datetime import datetime, timezone
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
 
+import pandas_ta_classic as ta
 import yfinance as yf
 
 from portfolio_loader import load_portfolio
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger(__name__)
+warnings.filterwarnings("ignore")
 
 
 # ─────────────────────────────────────────────
@@ -41,39 +41,90 @@ logger = logging.getLogger(__name__)
 # ─────────────────────────────────────────────
 PORTFOLIO_FILE = "stock_portfolio.json"
 OUTPUT_FILE    = "market_data.json"
-NEWS_LIMIT     = 5       # max news articles per ticker
-DELAY_SECONDS  = 1       # polite delay between API calls to avoid rate limiting
+DELAY_SECONDS  = 1.5
+HISTORY_PERIOD = "1y"
+
+
+# ─────────────────────────────────────────────
+# VERDICT ENGINE
+# ─────────────────────────────────────────────
+def _compute_verdict(indicators: dict) -> dict:
+    """
+    Votes across all indicators → one pre-computed signal.
+
+    Each indicator casts one vote:
+        +1 = Bullish  |  0 = Neutral  |  -1 = Bearish
+
+    Final label:
+        >= +4  → Strong Buy   |  <= -4  → Strong Sell
+        +2/+3  → Buy          |  -2/-3  → Sell
+        -1/+1  → Neutral
+    """
+    votes = []
+    price  = indicators.get("price")
+    rsi    = indicators.get("rsi_14")
+    sma50  = indicators.get("sma_50")
+    sma200 = indicators.get("sma_200")
+    ema20  = indicators.get("ema_20")
+    ema50  = indicators.get("ema_50")
+
+    # RSI
+    if rsi is not None:
+        votes.append(1 if rsi < 30 else -1 if rsi > 70 else 0)
+
+    # MACD crossover
+    macd = indicators.get("macd")
+    macd_sig = indicators.get("macd_signal")
+    if macd is not None and macd_sig is not None:
+        votes.append(1 if macd > macd_sig else -1)
+
+    # Price vs SMA 50
+    if price and sma50:
+        votes.append(1 if price > sma50 else -1)
+
+    # Price vs SMA 200
+    if price and sma200:
+        votes.append(1 if price > sma200 else -1)
+
+    # Bollinger Bands
+    bb_upper = indicators.get("bb_upper")
+    bb_lower = indicators.get("bb_lower")
+    if price and bb_upper and bb_lower:
+        votes.append(1 if price < bb_lower else -1 if price > bb_upper else 0)
+
+    # ADX trend strength
+    adx = indicators.get("adx")
+    if adx is not None and price and sma50:
+        votes.append((1 if price > sma50 else -1) if adx > 25 else 0)
+
+    # Stochastic %K
+    stoch_k = indicators.get("stoch_k")
+    if stoch_k is not None:
+        votes.append(1 if stoch_k < 20 else -1 if stoch_k > 80 else 0)
+
+    # EMA crossover
+    if ema20 and ema50:
+        votes.append(1 if ema20 > ema50 else -1)
+
+    total = sum(votes)
+    count = len(votes)
+
+    label = (
+        "Strong Buy"  if total >= 4  else
+        "Buy"         if total >= 2  else
+        "Strong Sell" if total <= -4 else
+        "Sell"        if total <= -2 else
+        "Neutral"
+    )
+
+    return {"label": label, "score": total, "max_score": count}
 
 
 # ─────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────
-def _compute_rsi(closes: list[float], period: int = 14) -> float | None:
-    """
-    Calculates RSI from a list of closing prices.
-    RSI > 70 = overbought, RSI < 30 = oversold.
-    Returns None if there isn't enough data.
-    """
-    if len(closes) < period + 1:
-        return None
-
-    gains, losses = [], []
-    for i in range(1, period + 1):
-        change = closes[i] - closes[i - 1]
-        (gains if change >= 0 else losses).append(abs(change))
-
-    avg_gain = sum(gains) / period if gains else 0
-    avg_loss = sum(losses) / period if losses else 0
-
-    if avg_loss == 0:
-        return 100.0
-
-    rs = avg_gain / avg_loss
-    return round(100 - (100 / (1 + rs)), 2)
-
-
-def _safe(value, decimals: int = 2):
-    """Round a float safely; return None if the value is missing."""
+def _r(value, decimals: int = 2):
+    """Safely round a float; return None if missing."""
     try:
         return round(float(value), decimals)
     except (TypeError, ValueError):
@@ -83,11 +134,10 @@ def _safe(value, decimals: int = 2):
 # ─────────────────────────────────────────────
 # PRICE + TECHNICALS
 # ─────────────────────────────────────────────
-def fetch_price_data(ticker: str) -> dict:
-    """
-    Fetch current price snapshot and basic technicals for one ticker.
-    """
-    logger.info(f"Fetching price for {ticker}...")
+def fetch_price_and_technicals(ticker: str) -> dict:
+    """Fetch OHLCV + compute all indicators for one ticker."""
+    print(f"  [technicals] {ticker} ...", end=" ", flush=True)
+
     result = {
         "ticker":       ticker,
         "price":        None,
@@ -97,145 +147,124 @@ def fetch_price_data(ticker: str) -> dict:
         "week52_low":   None,
         "sma_50":       None,
         "sma_200":      None,
+        "ema_20":       None,
+        "ema_50":       None,
         "rsi_14":       None,
+        "macd":         None,
+        "macd_signal":  None,
+        "macd_hist":    None,
+        "bb_upper":     None,
+        "bb_mid":       None,
+        "bb_lower":     None,
+        "adx":          None,
+        "stoch_k":      None,
+        "stoch_d":      None,
+        "atr":          None,
+        "verdict":      None,
         "error":        None,
     }
 
     try:
-        tk = yf.Ticker(ticker)
-
-        # Current snapshot from .info
+        tk   = yf.Ticker(ticker)
         info = tk.info
-        if not info or ("currentPrice" not in info and "regularMarketPrice" not in info):
-             logger.warning(f"Incomplete info for {ticker}, attempting fallback from history.")
-             try:
-                 hist = tk.history(period="5d")
-                 last_price = hist["Close"].iloc[-1] if not hist.empty else None
-             except Exception:
-                 last_price = None
-        else:
-             last_price = info.get("currentPrice") or info.get("regularMarketPrice")
-             
-        result["price"]       = _safe(last_price)
-        result["change_pct"]  = _safe(info.get("regularMarketChangePercent"), 4)
+        
+        # Check if the ticker is valid by checking if we get info back
+        if not info or "regularMarketPrice" not in info and "currentPrice" not in info:
+             result["error"] = "Ticker not found or no data"
+             print("✗ (ticker not found or no data)")
+             return result
+
+        hist = tk.history(period=HISTORY_PERIOD, interval="1d")
+
+        if hist.empty:
+            result["error"] = "No historical data returned"
+            print("✗ (no data)")
+            return result
+
+        # Current snapshot
+        result["price"]       = _r(info.get("currentPrice") or info.get("regularMarketPrice"))
+        result["change_pct"]  = _r(info.get("regularMarketChangePercent"), 4)
         result["volume"]      = info.get("regularMarketVolume")
-        result["week52_high"] = _safe(info.get("fiftyTwoWeekHigh"))
-        result["week52_low"]  = _safe(info.get("fiftyTwoWeekLow"))
+        result["week52_high"] = _r(info.get("fiftyTwoWeekHigh"))
+        result["week52_low"]  = _r(info.get("fiftyTwoWeekLow"))
 
-        # Historical closes for SMA + RSI (fetch 1 year of daily data)
-        hist = tk.history(period="1y", interval="1d")
+        # pandas-ta indicators
+        df = hist[["Open", "High", "Low", "Close", "Volume"]].copy()
+        df.columns = ["open", "high", "low", "close", "volume"]
 
-        if not hist.empty:
-            closes = hist["Close"].tolist()
+        df.ta.sma(length=50,  append=True)
+        df.ta.sma(length=200, append=True)
+        df.ta.ema(length=20,  append=True)
+        df.ta.ema(length=50,  append=True)
+        df.ta.rsi(length=14,  append=True)
+        df.ta.macd(fast=12, slow=26, signal=9, append=True)
+        df.ta.stoch(k=14, d=3, append=True)
+        df.ta.bbands(length=20, std=2, append=True)
+        df.ta.atr(length=14,   append=True)
+        df.ta.adx(length=14,   append=True)
 
-            # SMA 50
-            if len(closes) >= 50:
-                result["sma_50"] = _safe(sum(closes[-50:]) / 50)
+        last = df.iloc[-1]
 
-            # SMA 200
-            if len(closes) >= 200:
-                result["sma_200"] = _safe(sum(closes[-200:]) / 200)
+        result["sma_50"]      = _r(last.get("SMA_50"))
+        result["sma_200"]     = _r(last.get("SMA_200"))
+        result["ema_20"]      = _r(last.get("EMA_20"))
+        result["ema_50"]      = _r(last.get("EMA_50"))
+        result["rsi_14"]      = _r(last.get("RSI_14"))
+        result["macd"]        = _r(last.get("MACD_12_26_9"))
+        result["macd_signal"] = _r(last.get("MACDs_12_26_9"))
+        result["macd_hist"]   = _r(last.get("MACDh_12_26_9"))
+        result["bb_upper"]    = _r(last.get("BBU_20_2.0"))
+        result["bb_mid"]      = _r(last.get("BBM_20_2.0"))
+        result["bb_lower"]    = _r(last.get("BBL_20_2.0"))
+        result["adx"]         = _r(last.get("ADX_14"))
+        result["stoch_k"]     = _r(last.get("STOCHk_14_3_3"))
+        result["stoch_d"]     = _r(last.get("STOCHd_14_3_3"))
+        result["atr"]         = _r(last.get("ATRr_14"))
+        result["verdict"]     = _compute_verdict(result)
 
-            # RSI 14
-            result["rsi_14"] = _compute_rsi(closes[-30:])  # last 30 days is enough
-
-        logger.info(f"Successfully fetched price for {ticker}")
+        print("✓")
 
     except Exception as e:
         result["error"] = str(e)
-        logger.error(f"Failed to fetch price for {ticker}: {e}")
+        print(f"✗ ({e})")
 
     return result
 
 
 # ─────────────────────────────────────────────
-# NEWS
-# ─────────────────────────────────────────────
-def fetch_news(ticker: str, limit: int = NEWS_LIMIT) -> list[dict]:
-    """
-    Fetch recent news headlines for one ticker via yfinance.
-    """
-    logger.info(f"Fetching news for {ticker}...")
-    articles = []
-
-    try:
-        tk = yf.Ticker(ticker)
-        raw_news = tk.news or []
-
-        for item in raw_news[:limit]:
-            content = item.get("content", {})
-            articles.append({
-                "headline":     content.get("title", "N/A"),
-                "publisher":    content.get("provider", {}).get("displayName", "N/A"),
-                "link":         content.get("canonicalUrl", {}).get("url", "N/A"),
-                "published_at": content.get("pubDate", "N/A"),
-            })
-
-        logger.info(f"Successfully fetched {len(articles)} news articles for {ticker}")
-
-    except Exception as e:
-        logger.error(f"Failed to fetch news for {ticker}: {e}")
-
-    return articles
-
-
-# ─────────────────────────────────────────────
 # MAIN RUNNER
 # ─────────────────────────────────────────────
-def fetch_all(portfolio_file: str = PORTFOLIO_FILE) -> dict:
-    """
-    Loop over every ticker in the portfolio, fetch price + news,
-    and return one consolidated dict ready to be saved as JSON.
-    """
+def run(portfolio_file: str = PORTFOLIO_FILE) -> dict:
     portfolio = load_portfolio(portfolio_file)
     tickers   = portfolio["all_tickers"]
 
-    logger.info(f"Starting fetch for {len(tickers)} tickers.")
+    print(f"\n{'═'*55}")
+    print(f"  MARKET FETCHER  |  prices + technicals")
+    print(f"  {len(tickers)} tickers  |  {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"{'═'*55}\n")
 
     results = {}
+    for ticker in tickers:
+        results[ticker] = fetch_price_and_technicals(ticker)
+        v = results[ticker].get("verdict")
+        if v:
+            print(f"  → {ticker} verdict: {v['label']} (score {v['score']}/{v['max_score']})")
+        time.sleep(DELAY_SECONDS)
 
-    def _fetch_ticker_data(ticker):
-        price_data = fetch_price_data(ticker)
-        # No delay inside thread to allow concurrency, 
-        # but yfinance itself has some inherent limits.
-        news_data  = fetch_news(ticker)
-        return ticker, price_data, news_data
-
-    with ThreadPoolExecutor(max_workers=3) as executor:
-        futures = {executor.submit(_fetch_ticker_data, ticker): ticker for ticker in tickers}
-        
-        for future in futures:
-            ticker, price_data, news_data = future.result()
-            results[ticker] = {
-                "price":  price_data,
-                "news":   news_data,
-            }
-
-    payload = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "source":       "yfinance",
-        "tickers":      tickers,
-        "data":         results,
-    }
-
-    return payload
-
-
-def save(payload: dict, output_file: str = OUTPUT_FILE) -> None:
-    """Write the payload to a JSON file."""
-    path = Path(output_file)
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-    logger.info(f"Successfully saved market data to {path.resolve()}")
+    return results
 
 
 # ─────────────────────────────────────────────
-# ENTRY POINT
+# ENTRY POINT (standalone test)
 # ─────────────────────────────────────────────
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Fetch stock market data for a portfolio.")
-    parser.add_argument("--portfolio", default=PORTFOLIO_FILE, help="Path to portfolio file")
-    parser.add_argument("--output", default=OUTPUT_FILE, help="Path to output JSON file")
-    args = parser.parse_args()
+    data = run(PORTFOLIO_FILE)
 
-    payload = fetch_all(args.portfolio)
-    save(payload, args.output)
+    # Merge into market_data.json under "prices" key
+    output_path = Path(OUTPUT_FILE)
+    existing = json.loads(output_path.read_text()) if output_path.exists() else {}
+    existing["prices"]       = data
+    existing["generated_at"] = datetime.now(timezone.utc).isoformat()
+    output_path.write_text(json.dumps(existing, indent=2, ensure_ascii=False))
+
+    print(f"\n  Saved → {OUTPUT_FILE}  (key: prices)\n")
