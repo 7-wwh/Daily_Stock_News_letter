@@ -20,7 +20,7 @@ Before any code is written, we define the "Intellectual DNA" of the system. `sou
 
 ### 2. The Orchestration Layer (`cron_orchestrator.py`)
 The "Brain" that manages the lifecycle of the daily run.
-- **Portfolio Sync:** Parses `Stock_portfolio.md` to extract the current "Watch Universe."
+- **Portfolio Sync:** Parses `stock_portfolio.json` to extract the current "Watch Universe."
 - **Async Swarm Dispatch:** Uses `asyncio` to fire all four research agents in parallel to minimize latency.
 - **Payload Aggregation:** Collects disparate JSON responses and validates them against the master schema defined in `template.html`.
 - **Error Handling:** Implements "graceful degradation"—if the Technical Reader fails, the system still renders the rest of the brief with a "Data Unavailable" tag rather than crashing.

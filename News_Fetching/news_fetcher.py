@@ -52,7 +52,7 @@ from portfolio_loader import load_portfolio
 # ─────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────
-MACRO_QUERIES_FILE = str(BASE_DIR / "News_Fetching" / "macro_queries.json")
+MACRO_QUERIES_FILE = str(BASE_DIR / "News_Fetching" / "LLM_relay" / "macro_query.json")
 TAVILY_API_KEY    = os.getenv("TAVILY_API_KEY", "YOUR_TAVILY_API_KEY_HERE")
 PORTFOLIO_FILE    = str(BASE_DIR / "stock_portfolio.json")
 OUTPUT_FILE       = str(BASE_DIR / "market_data.json")

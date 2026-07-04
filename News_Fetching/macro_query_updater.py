@@ -42,18 +42,25 @@ from pathlib import Path
 
 from tavily import TavilyClient
 
+import sys
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 from portfolio_loader import load_portfolio
 
+
+from dotenv import load_dotenv
+load_dotenv("/home/ubuntu/Personal Projects/env_files/daily_stock.env")
 
 # ─────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "YOUR_TAVILY_API_KEY_HERE")
 
-QUERIES_FILE   = "macro_queries.json"
-PROPOSED_FILE  = "macro_queries_proposed.json"
-BACKUP_FILE    = "macro_queries_backup.json"
-PROMPT_FILE    = "macro_queries_prompt.txt"    # saved so orchestrator can read it
+BASE_DIR       = Path(__file__).resolve().parent
+QUERIES_FILE   = str(BASE_DIR / "LLM_relay" / "macro_query.json")
+PROPOSED_FILE  = str(BASE_DIR / "LLM_relay" / "macro_queries_proposed.json")
+BACKUP_FILE    = str(BASE_DIR / "LLM_relay" / "macro_query_backup.json")
+PROMPT_FILE    = str(BASE_DIR / "LLM_relay" / "macro_queries_prompt.txt")
 
 MAX_QUERIES    = 5     # hard budget ceiling — agent can never exceed this
 SCOUT_SEARCHES = 3
@@ -230,7 +237,7 @@ def validate(proposed: list[dict]) -> tuple[bool, list[str]]:
 # Called by orchestrator to kick off the flow.
 # Returns the prompt + scout context.
 # ─────────────────────────────────────────────
-def prepare_proposal(portfolio_file: str = "portfolio.md") -> tuple[str, str]:
+def prepare_proposal(portfolio_file: str = "stock_portfolio.json") -> tuple[str, str]:
     """
     Entry point for the orchestrator.
 

@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "description": "Initial macro queries",
+    "max_queries": 5,
+    "last_updated": "2026-07-02"
+  },
+  "queries": [
+    {
+      "id": "q1",
+      "theme": "US Tech",
+      "query": "latest trends in US AI and semiconductor market 2026",
+      "rationale": "Core portfolio exposure to NVDA, PLTR",
+      "replaces": "new"
+    },
+    {
+      "id": "q2",
+      "theme": "SEA Markets",
+      "query": "Singapore SGX and Malaysia Bursa market catalysts this week",
+      "rationale": "Exposure to M14.SI and KLCCSS",
+      "replaces": "new"
+    }
+  ]
+}
